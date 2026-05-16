@@ -39,12 +39,29 @@ jobs:
       - name: Install psql
         run: sudo apt-get update && sudo apt-get install -y postgresql-client
 
-      - name: Bootstrap required extensions
+      - name: Bootstrap Supabase shims (auth schema + auth.uid + anon/authenticated roles)
         env:
           PGPASSWORD: postgres
         run: |
-          psql -h localhost -U postgres -d postgres -c \
-            "create schema if not exists auth; create table if not exists auth.users (id uuid primary key default gen_random_uuid());"
+          psql -h localhost -U postgres -d postgres -v ON_ERROR_STOP=1 <<'SQL'
+          create schema if not exists auth;
+          create table if not exists auth.users (
+            id uuid primary key default gen_random_uuid()
+          );
+          create or replace function auth.uid() returns uuid
+            language sql stable as $$ select nullif(current_setting('request.jwt.claim.sub', true), '')::uuid $$;
+          do $$ begin
+            if not exists (select 1 from pg_roles where rolname = 'anon') then
+              create role anon nologin;
+            end if;
+            if not exists (select 1 from pg_roles where rolname = 'authenticated') then
+              create role authenticated nologin;
+            end if;
+            if not exists (select 1 from pg_roles where rolname = 'service_role') then
+              create role service_role nologin;
+            end if;
+          end $$;
+          SQL
 
       - name: Apply migrations in order
         env:
