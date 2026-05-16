@@ -17,15 +17,11 @@ dependencies:
 
   cupertino_icons: ^1.0.8
 
-  # Heavier deps (supabase_flutter, go_router, freezed, in_app_purchase,
-  # fl_chart, printing, flutter_secure_storage) land milestone-by-milestone
-  # to keep dependency resolution stable.
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  very_good_analysis: ^6.0.0
+  flutter_lints: ^5.0.0
 
 flutter:
   uses-material-design: true
