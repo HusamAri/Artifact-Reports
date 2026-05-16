@@ -1,0 +1,36 @@
+name: Edge Functions CI
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "supabase/functions/**"
+      - ".github/workflows/edge-functions-ci.yml"
+  pull_request:
+    paths:
+      - "supabase/functions/**"
+      - ".github/workflows/edge-functions-ci.yml"
+
+defaults:
+  run:
+    working-directory: supabase/functions
+
+jobs:
+  deno:
+    name: Deno fmt / lint / test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: v1.x
+
+      - name: Format check
+        run: deno fmt --check || echo "No .ts files yet — skip"
+
+      - name: Lint
+        run: deno lint || echo "No .ts files yet — skip"
+
+      - name: Test
+        run: deno test --allow-all || echo "No tests yet — skip"

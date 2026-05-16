@@ -1,0 +1,14 @@
+# Default owner
+*       @husamari
+
+# Flutter app
+/app/   @husamari
+
+# Backend
+/supabase/  @husamari
+
+# Web report
+/web-report/  @husamari
+
+# CI / repo config
+/.github/   @husamari
