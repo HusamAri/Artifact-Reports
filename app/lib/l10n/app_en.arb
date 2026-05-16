@@ -1,0 +1,19 @@
+{
+  "@@locale": "en",
+  "appTitle": "Artifact Reports",
+  "@appTitle": {
+    "description": "Application title shown on launch and in tabs"
+  },
+  "generalInfo": "General info",
+  "@generalInfo": {
+    "description": "Dashboard section header (matches reference design)"
+  },
+  "filterAll": "All",
+  "filterPermanent": "Permanent",
+  "filterHot": "Hot",
+  "filterNew": "New",
+  "mainFeatures": "Main Features",
+  "caseStudies": "Case Studies",
+  "viewPresentation": "View presentation",
+  "perfectForDesigns": "Perfect for UI/UX designs"
+}

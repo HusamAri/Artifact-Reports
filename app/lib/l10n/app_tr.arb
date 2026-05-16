@@ -1,0 +1,13 @@
+{
+  "@@locale": "tr",
+  "appTitle": "Artifact Reports",
+  "generalInfo": "Genel bilgi",
+  "filterAll": "Tümü",
+  "filterPermanent": "Sabit",
+  "filterHot": "Popüler",
+  "filterNew": "Yeni",
+  "mainFeatures": "Ana Özellikler",
+  "caseStudies": "Vaka Çalışmaları",
+  "viewPresentation": "Sunumu görüntüle",
+  "perfectForDesigns": "UI/UX tasarımları için ideal"
+}
