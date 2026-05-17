@@ -26,7 +26,6 @@ app/.pub-cache/
 app/.pub/
 app/build/
 app/coverage/
-app/pubspec.lock
 app/.fvm/
 app/ios/Pods/
 app/ios/.symlinks/

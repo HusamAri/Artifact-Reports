@@ -9,17 +9,26 @@ import '../../l10n/generated/app_localizations.dart';
 import '../metrics/metrics_controller.dart';
 import '../metrics/metrics_series.dart';
 
-/// Line chart of total followers across all connected accounts over
-/// the currently selected period. Renders nothing until the workspace
-/// has at least two snapshots in the window — a single point doesn't
-/// communicate a trend.
-class FollowersChart extends ConsumerWidget {
-  const FollowersChart({super.key});
+/// Time-series area chart for a single `metrics_snapshots` column
+/// (`followers`, `impressions`, `reach`, ...). Renders a hint string
+/// until the workspace has at least two points in the window.
+class MetricChart extends ConsumerWidget {
+  const MetricChart({
+    required this.metric,
+    required this.title,
+    this.color = AppColors.accentViolet,
+    super.key,
+  });
+
+  /// metrics_snapshots column name (e.g. `followers`).
+  final String metric;
+  final String title;
+  final Color color;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
-    final asyncSeries = ref.watch(followersSeriesProvider);
+    final asyncSeries = ref.watch(metricSeriesProvider(metric));
     return Container(
       padding: const EdgeInsets.fromLTRB(20, 20, 20, 12),
       decoration: BoxDecoration(
@@ -29,7 +38,7 @@ class FollowersChart extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(l10n.followersOverTime, style: AppTypography.title),
+          Text(title, style: AppTypography.title),
           const SizedBox(height: 16),
           SizedBox(
             height: 180,
@@ -48,7 +57,7 @@ class FollowersChart extends ConsumerWidget {
                         style: AppTypography.caption,
                       ),
                     )
-                  : _Chart(series: series),
+                  : _Chart(series: series, color: color),
             ),
           ),
         ],
@@ -58,9 +67,10 @@ class FollowersChart extends ConsumerWidget {
 }
 
 class _Chart extends StatelessWidget {
-  const _Chart({required this.series});
+  const _Chart({required this.series, required this.color});
 
   final List<TimeSeriesPoint> series;
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
@@ -68,8 +78,9 @@ class _Chart extends StatelessWidget {
       for (var i = 0; i < series.length; i++)
         FlSpot(i.toDouble(), series[i].value.toDouble()),
     ];
-    final minY = series.map((p) => p.value).reduce((a, b) => a < b ? a : b);
-    final maxY = series.map((p) => p.value).reduce((a, b) => a > b ? a : b);
+    final values = series.map((p) => p.value);
+    final minY = values.reduce((a, b) => a < b ? a : b);
+    final maxY = values.reduce((a, b) => a > b ? a : b);
     final pad = ((maxY - minY).abs() * 0.1).clamp(1, double.infinity);
 
     return LineChart(
@@ -83,13 +94,13 @@ class _Chart extends StatelessWidget {
         lineBarsData: [
           LineChartBarData(
             spots: spots,
-            color: AppColors.accentViolet,
+            color: color,
             barWidth: 2,
             isCurved: true,
             dotData: const FlDotData(show: false),
             belowBarData: BarAreaData(
               show: true,
-              color: AppColors.accentViolet.withValues(alpha: 0.15),
+              color: color.withValues(alpha: 0.15),
             ),
           ),
         ],

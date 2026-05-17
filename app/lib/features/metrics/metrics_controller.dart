@@ -54,8 +54,7 @@ final totalReachProvider = Provider<int?>((ref) {
   return _sumInt(map.values, (s) => s.reach);
 });
 
-/// Time-window selection for charts. Stored as a number of days so it
-/// serializes trivially if we ever persist the choice.
+/// Time-window selection for charts.
 enum DashboardPeriod {
   sevenDays(7),
   thirtyDays(30),
@@ -68,10 +67,11 @@ enum DashboardPeriod {
 final selectedPeriodProvider =
     StateProvider<DashboardPeriod>((_) => DashboardPeriod.thirtyDays);
 
-/// Followers-over-time series across all connected accounts, scoped to
-/// the currently selected period.
-final followersSeriesProvider =
-    FutureProvider<List<TimeSeriesPoint>>((ref) async {
+/// Generic time-series provider keyed on a `metrics_snapshots` column
+/// (e.g. `followers`, `impressions`, `reach`). Honors the currently
+/// selected period and the active workspace.
+final metricSeriesProvider =
+    FutureProvider.family<List<TimeSeriesPoint>, String>((ref, metric) async {
   if (!Env.isConfigured) return const [];
   final workspaceId = ref.watch(currentWorkspaceIdProvider);
   if (workspaceId == null) return const [];
@@ -79,7 +79,7 @@ final followersSeriesProvider =
   final since = DateTime.now().toUtc().subtract(Duration(days: period.days));
   return ref.read(metricsRepositoryProvider).seriesForWorkspace(
         workspaceId: workspaceId,
-        metric: 'followers',
+        metric: metric,
         since: since,
       );
 });
