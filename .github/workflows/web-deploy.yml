@@ -1,0 +1,72 @@
+name: Deploy web to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "app/**"
+      - ".github/workflows/web-deploy.yml"
+  workflow_dispatch:
+
+# Pages deploys require these permissions on the workflow token.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Cancel an in-flight deploy when a newer commit lands.
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build Flutter web
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: app
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Add web platform (in case it isn't checked in yet)
+        run: flutter create . --platforms=web --project-name=artifact_reports
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Generate localizations
+        run: flutter gen-l10n
+
+      # GitHub Pages serves from /<repo>/, so the base href must match.
+      # SUPABASE_URL / SUPABASE_ANON_KEY are intentionally omitted — the
+      # public preview runs without auth (Env.isConfigured == false),
+      # which gates every Supabase call.
+      - name: Build web
+        run: |
+          flutter build web \
+            --release \
+            --base-href "/${GITHUB_REPOSITORY##*/}/" \
+            --no-tree-shake-icons
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: app/build/web
+
+  deploy:
+    name: Deploy to Pages
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4
