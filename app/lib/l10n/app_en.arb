@@ -40,5 +40,8 @@
   "comingSoon": "Coming soon",
   "connect": "Connect",
   "noWorkspaceSelected": "No workspace selected.",
-  "finishInBrowser": "Finish the connection in your browser, then come back."
+  "finishInBrowser": "Finish the connection in your browser, then come back.",
+  "sync": "Sync",
+  "syncSuccess": "Synced.",
+  "totalFollowers": "Total followers"
 }

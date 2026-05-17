@@ -6,6 +6,7 @@ import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_radius.dart';
 import '../../core/theme/app_typography.dart';
 import '../../l10n/generated/app_localizations.dart';
+import '../metrics/metrics_controller.dart';
 import 'social_account.dart';
 import 'social_account_controller.dart';
 
@@ -47,14 +48,42 @@ class SocialAccountsScreen extends ConsumerWidget {
   }
 }
 
-class _AccountTile extends ConsumerWidget {
+class _AccountTile extends ConsumerStatefulWidget {
   const _AccountTile({required this.account});
 
   final SocialAccount account;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<_AccountTile> createState() => _AccountTileState();
+}
+
+class _AccountTileState extends ConsumerState<_AccountTile> {
+  bool _syncing = false;
+
+  Future<void> _sync() async {
     final l10n = AppLocalizations.of(context);
+    final messenger = ScaffoldMessenger.of(context);
+    setState(() => _syncing = true);
+    try {
+      await ref
+          .read(socialAccountRepositoryProvider)
+          .triggerSync(widget.account.id);
+      ref.invalidate(socialAccountsProvider);
+      ref.invalidate(latestMetricsProvider);
+      if (!mounted) return;
+      messenger.showSnackBar(SnackBar(content: Text(l10n.syncSuccess)));
+    } on Exception catch (e) {
+      if (!mounted) return;
+      messenger.showSnackBar(SnackBar(content: Text(e.toString())));
+    } finally {
+      if (mounted) setState(() => _syncing = false);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final account = widget.account;
     return Container(
       decoration: BoxDecoration(
         color: AppColors.bgSurface,
@@ -71,15 +100,37 @@ class _AccountTile extends ConsumerWidget {
           account.handle ?? account.platform.label,
           style: AppTypography.caption,
         ),
-        trailing: IconButton(
-          tooltip: l10n.disconnect,
-          icon: const Icon(Icons.link_off, color: AppColors.textSecondary),
-          onPressed: () async {
-            await ref
-                .read(socialAccountRepositoryProvider)
-                .disconnect(account.id);
-            ref.invalidate(socialAccountsProvider);
-          },
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            IconButton(
+              tooltip: l10n.sync,
+              icon: _syncing
+                  ? const SizedBox(
+                      width: 18,
+                      height: 18,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    )
+                  : const Icon(
+                      Icons.refresh,
+                      color: AppColors.textSecondary,
+                    ),
+              onPressed: _syncing ? null : _sync,
+            ),
+            IconButton(
+              tooltip: l10n.disconnect,
+              icon: const Icon(
+                Icons.link_off,
+                color: AppColors.textSecondary,
+              ),
+              onPressed: () async {
+                await ref
+                    .read(socialAccountRepositoryProvider)
+                    .disconnect(account.id);
+                ref.invalidate(socialAccountsProvider);
+              },
+            ),
+          ],
         ),
       ),
     );

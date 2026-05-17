@@ -31,4 +31,18 @@ class SocialAccountRepository {
     await _client.from('social_accounts').update(
         {'deleted_at': DateTime.now().toIso8601String()}).eq('id', accountId);
   }
+
+  /// Invokes the sync-metrics edge function for a single account.
+  /// Returns the captured_at timestamp from the snapshot.
+  Future<DateTime> triggerSync(String accountId) async {
+    final response = await _client.functions.invoke(
+      'sync-metrics',
+      body: {'account_id': accountId},
+    );
+    final data = response.data;
+    if (data is Map && data['captured_at'] is String) {
+      return DateTime.parse(data['captured_at'] as String);
+    }
+    throw StateError('Unexpected sync-metrics response: $data');
+  }
 }
