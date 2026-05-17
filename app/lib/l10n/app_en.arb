@@ -15,5 +15,15 @@
   "mainFeatures": "Main Features",
   "caseStudies": "Case Studies",
   "viewPresentation": "View presentation",
-  "perfectForDesigns": "Perfect for UI/UX designs"
+  "perfectForDesigns": "Perfect for UI/UX designs",
+  "loginTitle": "Welcome back",
+  "signupTitle": "Create account",
+  "email": "Email",
+  "password": "Password",
+  "signIn": "Sign in",
+  "signUp": "Sign up",
+  "signOut": "Sign out",
+  "signInPrompt": "Already have an account? Sign in",
+  "signUpPrompt": "No account yet? Sign up",
+  "checkEmail": "Check your email to confirm your account."
 }

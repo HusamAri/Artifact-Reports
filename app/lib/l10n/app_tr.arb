@@ -9,5 +9,15 @@
   "mainFeatures": "Ana Özellikler",
   "caseStudies": "Vaka Çalışmaları",
   "viewPresentation": "Sunumu görüntüle",
-  "perfectForDesigns": "UI/UX tasarımları için ideal"
+  "perfectForDesigns": "UI/UX tasarımları için ideal",
+  "loginTitle": "Tekrar hoş geldin",
+  "signupTitle": "Hesap oluştur",
+  "email": "E-posta",
+  "password": "Şifre",
+  "signIn": "Giriş yap",
+  "signUp": "Kayıt ol",
+  "signOut": "Çıkış yap",
+  "signInPrompt": "Zaten hesabın var mı? Giriş yap",
+  "signUpPrompt": "Hesabın yok mu? Kayıt ol",
+  "checkEmail": "Hesabını doğrulamak için e-postanı kontrol et."
 }
