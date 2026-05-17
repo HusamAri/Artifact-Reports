@@ -41,7 +41,37 @@ class OverviewTab extends ConsumerWidget {
           const SizedBox(height: 16),
         ],
         _AccountsCard(count: accountCount, l10n: l10n),
+        const SizedBox(height: 12),
+        _ReportsCard(l10n: l10n),
       ],
+    );
+  }
+}
+
+class _ReportsCard extends StatelessWidget {
+  const _ReportsCard({required this.l10n});
+  final AppLocalizations l10n;
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: AppColors.bgSurface,
+      borderRadius: BorderRadius.circular(AppRadius.card),
+      child: InkWell(
+        onTap: () => context.push('/reports'),
+        borderRadius: BorderRadius.circular(AppRadius.card),
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Row(
+            children: [
+              Expanded(
+                child: Text(l10n.reports, style: AppTypography.title),
+              ),
+              const Icon(Icons.chevron_right, color: AppColors.textSecondary),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

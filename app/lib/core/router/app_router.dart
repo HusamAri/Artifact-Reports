@@ -6,6 +6,8 @@ import '../../features/auth/auth_controller.dart';
 import '../../features/auth/login_screen.dart';
 import '../../features/auth/signup_screen.dart';
 import '../../features/dashboard/dashboard_screen.dart';
+import '../../features/reports/report_detail_screen.dart';
+import '../../features/reports/reports_screen.dart';
 import '../../features/social_accounts/connect_account_screen.dart';
 import '../../features/social_accounts/social_accounts_screen.dart';
 import '../../features/social_accounts/uberall_connect_screen.dart';
@@ -73,6 +75,18 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           final token = state.uri.queryParameters['token'] ?? '';
           return InviteRedeemScreen(token: token);
         },
+      ),
+      GoRoute(
+        path: '/reports',
+        builder: (context, state) => const ReportsScreen(),
+        routes: [
+          GoRoute(
+            path: ':id',
+            builder: (context, state) => ReportDetailScreen(
+              reportId: state.pathParameters['id']!,
+            ),
+          ),
+        ],
       ),
       GoRoute(
         path: '/accounts',
