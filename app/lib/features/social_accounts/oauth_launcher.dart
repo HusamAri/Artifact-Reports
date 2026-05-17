@@ -28,6 +28,7 @@ class OAuthLauncher {
       case SocialPlatform.linkedin:
         return 'oauth-linkedin/start';
       case SocialPlatform.gmb:
+        return 'oauth-gmb/start';
       case SocialPlatform.uberall:
         throw UnimplementedError(
           '${platform.label} OAuth is not implemented yet.',
