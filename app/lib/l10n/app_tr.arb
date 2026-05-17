@@ -26,5 +26,10 @@
   "workspaceNameRequired": "Çalışma alanı adı zorunlu",
   "createWorkspace": "Çalışma alanı oluştur",
   "redeemingInvite": "Davet kullanılıyor…",
-  "goHome": "Ana sayfaya dön"
+  "goHome": "Ana sayfaya dön",
+  "connectedAccounts": "Bağlı hesaplar",
+  "connectAccount": "Hesap bağla",
+  "noAccountsYet": "Henüz bağlı hesap yok.",
+  "disconnect": "Bağlantıyı kes",
+  "comingSoon": "Yakında"
 }

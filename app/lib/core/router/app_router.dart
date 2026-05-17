@@ -6,6 +6,8 @@ import '../../features/auth/auth_controller.dart';
 import '../../features/auth/login_screen.dart';
 import '../../features/auth/signup_screen.dart';
 import '../../features/dashboard/dashboard_screen.dart';
+import '../../features/social_accounts/connect_account_screen.dart';
+import '../../features/social_accounts/social_accounts_screen.dart';
 import '../../features/workspace/invite_redeem_screen.dart';
 import '../../features/workspace/onboarding_screen.dart';
 import '../../features/workspace/workspace.dart';
@@ -70,6 +72,16 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           final token = state.uri.queryParameters['token'] ?? '';
           return InviteRedeemScreen(token: token);
         },
+      ),
+      GoRoute(
+        path: '/accounts',
+        builder: (context, state) => const SocialAccountsScreen(),
+        routes: [
+          GoRoute(
+            path: 'connect',
+            builder: (context, state) => const ConnectAccountScreen(),
+          ),
+        ],
       ),
     ],
   );
