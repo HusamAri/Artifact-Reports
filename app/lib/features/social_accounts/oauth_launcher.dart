@@ -22,6 +22,7 @@ class OAuthLauncher {
       case SocialPlatform.instagram:
         return 'oauth-instagram/start';
       case SocialPlatform.tiktok:
+        return 'oauth-tiktok/start';
       case SocialPlatform.x:
       case SocialPlatform.linkedin:
       case SocialPlatform.gmb:

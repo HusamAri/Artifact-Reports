@@ -78,6 +78,8 @@ Deno.serve(async (req: Request) => {
       return syncYouTube(service, account as SocialAccountRow);
     case "instagram":
       return syncInstagram(service, account as SocialAccountRow);
+    case "tiktok":
+      return syncTikTok(service, account as SocialAccountRow);
     default:
       return json({ error: "platform_not_implemented" }, 501);
   }
@@ -200,6 +202,98 @@ async function syncInstagram(
     .eq("id", account.id);
 
   return json({ captured_at: capturedAt, snapshot }, 200);
+}
+
+async function syncTikTok(
+  service: SupabaseClient,
+  account: SocialAccountRow,
+): Promise<Response> {
+  const token = await ensureTikTokFreshToken(service, account);
+  if (!token) return json({ error: "token_refresh_failed" }, 401);
+
+  const res = await fetch(
+    "https://open.tiktokapis.com/v2/user/info/?fields=follower_count,likes_count,video_count",
+    { headers: { Authorization: `Bearer ${token}` } },
+  );
+  if (!res.ok) {
+    return json({ error: "tiktok_api_error", detail: await res.text() }, 502);
+  }
+  const json_ = await res.json() as {
+    data?: {
+      user?: {
+        follower_count?: number;
+        likes_count?: number;
+        video_count?: number;
+      };
+    };
+  };
+  const stats = json_.data?.user;
+  if (!stats) return json({ error: "no_statistics" }, 404);
+
+  const capturedAt = new Date().toISOString();
+  const snapshot = {
+    social_account_id: account.id,
+    captured_at: capturedAt,
+    followers: stats.follower_count ?? null,
+    posts: stats.video_count ?? null,
+    impressions: stats.likes_count ?? null, // TikTok exposes likes; surface as impressions proxy until a dedicated column lands
+    raw: stats,
+  };
+
+  const { error: insertErr } = await service
+    .from("metrics_snapshots")
+    .insert(snapshot);
+  if (insertErr) return json({ error: insertErr.message }, 500);
+
+  await service
+    .from("social_accounts")
+    .update({ last_synced_at: capturedAt })
+    .eq("id", account.id);
+
+  return json({ captured_at: capturedAt, snapshot }, 200);
+}
+
+async function ensureTikTokFreshToken(
+  service: SupabaseClient,
+  account: SocialAccountRow,
+): Promise<string | null> {
+  const expiresAt = account.expires_at ? new Date(account.expires_at) : null;
+  if (
+    account.access_token_encrypted
+    && expiresAt
+    && expiresAt.getTime() - Date.now() > 60_000
+  ) {
+    return account.access_token_encrypted;
+  }
+  if (!account.refresh_token_encrypted) return null;
+
+  const res = await fetch("https://open.tiktokapis.com/v2/oauth/token/", {
+    method: "POST",
+    headers: { "content-type": "application/x-www-form-urlencoded" },
+    body: new URLSearchParams({
+      client_key: Deno.env.get("TIKTOK_CLIENT_KEY")!,
+      client_secret: Deno.env.get("TIKTOK_CLIENT_SECRET")!,
+      refresh_token: account.refresh_token_encrypted,
+      grant_type: "refresh_token",
+    }),
+  });
+  if (!res.ok) return null;
+  const tokens = await res.json() as {
+    access_token: string;
+    refresh_token?: string;
+    expires_in: number;
+  };
+  const newExpires = new Date(Date.now() + tokens.expires_in * 1000).toISOString();
+  await service
+    .from("social_accounts")
+    .update({
+      access_token_encrypted: tokens.access_token,
+      refresh_token_encrypted: tokens.refresh_token
+        ?? account.refresh_token_encrypted,
+      expires_at: newExpires,
+    })
+    .eq("id", account.id);
+  return tokens.access_token;
 }
 
 /// Returns a valid access token. If the stored token is expired,
