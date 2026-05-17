@@ -1,5 +1,5 @@
-/// One row from metrics_snapshots. M3c only fills the numeric core;
-/// engagement_rate / reach land in later platform-specific PRs.
+/// One row from metrics_snapshots. Numeric fields are nullable so
+/// platforms that don't surface them can still record a heartbeat.
 class MetricsSnapshot {
   const MetricsSnapshot({
     required this.id,
@@ -8,6 +8,8 @@ class MetricsSnapshot {
     this.followers,
     this.posts,
     this.impressions,
+    this.reach,
+    this.engagementRate,
   });
 
   factory MetricsSnapshot.fromJson(Map<String, dynamic> json) {
@@ -18,6 +20,8 @@ class MetricsSnapshot {
       followers: (json['followers'] as num?)?.toInt(),
       posts: (json['posts'] as num?)?.toInt(),
       impressions: (json['impressions'] as num?)?.toInt(),
+      reach: (json['reach'] as num?)?.toInt(),
+      engagementRate: (json['engagement_rate'] as num?)?.toDouble(),
     );
   }
 
@@ -27,4 +31,6 @@ class MetricsSnapshot {
   final int? followers;
   final int? posts;
   final int? impressions;
+  final int? reach;
+  final double? engagementRate;
 }

@@ -19,19 +19,37 @@ final latestMetricsProvider =
   return ref.read(metricsRepositoryProvider).latestForWorkspace(workspaceId);
 });
 
-/// Sum of followers across every connected account in the workspace.
-/// Returns null when there are no snapshots yet.
-final totalFollowersProvider = Provider<int?>((ref) {
-  final asyncMap = ref.watch(latestMetricsProvider);
-  final map = asyncMap.valueOrNull;
-  if (map == null || map.isEmpty) return null;
+int? _sumInt(
+    Iterable<MetricsSnapshot> snaps, int? Function(MetricsSnapshot) pick) {
   var total = 0;
   var any = false;
-  for (final snap in map.values) {
-    if (snap.followers != null) {
-      total += snap.followers!;
+  for (final s in snaps) {
+    final v = pick(s);
+    if (v != null) {
+      total += v;
       any = true;
     }
   }
   return any ? total : null;
+}
+
+/// Sum of followers across every connected account in the workspace.
+final totalFollowersProvider = Provider<int?>((ref) {
+  final map = ref.watch(latestMetricsProvider).valueOrNull ?? const {};
+  return _sumInt(map.values, (s) => s.followers);
+});
+
+final totalImpressionsProvider = Provider<int?>((ref) {
+  final map = ref.watch(latestMetricsProvider).valueOrNull ?? const {};
+  return _sumInt(map.values, (s) => s.impressions);
+});
+
+final totalPostsProvider = Provider<int?>((ref) {
+  final map = ref.watch(latestMetricsProvider).valueOrNull ?? const {};
+  return _sumInt(map.values, (s) => s.posts);
+});
+
+final totalReachProvider = Provider<int?>((ref) {
+  final map = ref.watch(latestMetricsProvider).valueOrNull ?? const {};
+  return _sumInt(map.values, (s) => s.reach);
 });
