@@ -19,5 +19,12 @@
   "signOut": "Çıkış yap",
   "signInPrompt": "Zaten hesabın var mı? Giriş yap",
   "signUpPrompt": "Hesabın yok mu? Kayıt ol",
-  "checkEmail": "Hesabını doğrulamak için e-postanı kontrol et."
+  "checkEmail": "Hesabını doğrulamak için e-postanı kontrol et.",
+  "onboardingTitle": "Çalışma alanı oluştur",
+  "onboardingSubtitle": "Çalışma alanı bağlı hesaplarını, metriklerini ve raporlarını barındırır.",
+  "workspaceName": "Çalışma alanı adı",
+  "workspaceNameRequired": "Çalışma alanı adı zorunlu",
+  "createWorkspace": "Çalışma alanı oluştur",
+  "redeemingInvite": "Davet kullanılıyor…",
+  "goHome": "Ana sayfaya dön"
 }

@@ -25,5 +25,12 @@
   "signOut": "Sign out",
   "signInPrompt": "Already have an account? Sign in",
   "signUpPrompt": "No account yet? Sign up",
-  "checkEmail": "Check your email to confirm your account."
+  "checkEmail": "Check your email to confirm your account.",
+  "onboardingTitle": "Create your workspace",
+  "onboardingSubtitle": "A workspace holds your connected accounts, metrics, and reports.",
+  "workspaceName": "Workspace name",
+  "workspaceNameRequired": "Workspace name is required",
+  "createWorkspace": "Create workspace",
+  "redeemingInvite": "Redeeming invite…",
+  "goHome": "Go home"
 }
