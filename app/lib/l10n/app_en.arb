@@ -43,5 +43,9 @@
   "finishInBrowser": "Finish the connection in your browser, then come back.",
   "sync": "Sync",
   "syncSuccess": "Synced.",
-  "totalFollowers": "Total followers"
+  "totalFollowers": "Total followers",
+  "apiKey": "API key",
+  "apiKeyRequired": "API key is required",
+  "uberallApiKeyHint": "Find your private key in Uberall under Account › API Access.",
+  "connectedSuccessfully": "Connected."
 }

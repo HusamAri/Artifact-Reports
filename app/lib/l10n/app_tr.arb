@@ -37,5 +37,9 @@
   "finishInBrowser": "Bağlantıyı tarayıcıda tamamlayıp uygulamaya dön.",
   "sync": "Senkronize et",
   "syncSuccess": "Senkronize edildi.",
-  "totalFollowers": "Toplam takipçi"
+  "totalFollowers": "Toplam takipçi",
+  "apiKey": "API anahtarı",
+  "apiKeyRequired": "API anahtarı zorunlu",
+  "uberallApiKeyHint": "Uberall'da Hesap › API Erişimi altında özel anahtarını bulabilirsin.",
+  "connectedSuccessfully": "Bağlandı."
 }
