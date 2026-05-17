@@ -13,6 +13,13 @@ abstract final class Env {
     defaultValue: '',
   );
 
+  /// Base URL where the Next.js web-report front-end lives. Public
+  /// report links are built as `{publicReportBaseUrl}/r/{publicId}`.
+  static const String publicReportBaseUrl = String.fromEnvironment(
+    'PUBLIC_REPORT_BASE_URL',
+    defaultValue: 'https://reports.artifact.studio',
+  );
+
   static bool get isConfigured =>
       supabaseUrl.isNotEmpty && supabaseAnonKey.isNotEmpty;
 }
