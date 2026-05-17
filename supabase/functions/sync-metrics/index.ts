@@ -76,6 +76,8 @@ Deno.serve(async (req: Request) => {
   switch ((account as SocialAccountRow).platform) {
     case "youtube":
       return syncYouTube(service, account as SocialAccountRow);
+    case "instagram":
+      return syncInstagram(service, account as SocialAccountRow);
     default:
       return json({ error: "platform_not_implemented" }, 501);
   }
@@ -120,6 +122,71 @@ async function syncYouTube(
     posts,
     impressions,
     raw: stats,
+  };
+
+  const { error: insertErr } = await service
+    .from("metrics_snapshots")
+    .insert(snapshot);
+  if (insertErr) return json({ error: insertErr.message }, 500);
+
+  await service
+    .from("social_accounts")
+    .update({ last_synced_at: capturedAt })
+    .eq("id", account.id);
+
+  return json({ captured_at: capturedAt, snapshot }, 200);
+}
+
+async function syncInstagram(
+  service: SupabaseClient,
+  account: SocialAccountRow,
+): Promise<Response> {
+  const token = account.access_token_encrypted;
+  if (!token) return json({ error: "no_token" }, 401);
+
+  // Account-level fields: followers_count + media_count + name.
+  const userRes = await fetch(
+    `https://graph.facebook.com/v21.0/${account.external_id}?fields=followers_count,media_count&access_token=${token}`,
+  );
+  if (!userRes.ok) {
+    return json({ error: "instagram_api_error", detail: await userRes.text() }, 502);
+  }
+  const user = await userRes.json() as {
+    followers_count?: number;
+    media_count?: number;
+  };
+
+  // 7-day rolling insights for engagement signal.
+  let reach: number | null = null;
+  let impressions: number | null = null;
+  const since = Math.floor(Date.now() / 1000) - 7 * 24 * 60 * 60;
+  const until = Math.floor(Date.now() / 1000);
+  const insightsRes = await fetch(
+    `https://graph.facebook.com/v21.0/${account.external_id}/insights?metric=reach,impressions&period=day&since=${since}&until=${until}&access_token=${token}`,
+  );
+  if (insightsRes.ok) {
+    const ins = await insightsRes.json() as {
+      data?: Array<{
+        name: string;
+        values: Array<{ value: number }>;
+      }>;
+    };
+    for (const m of ins.data ?? []) {
+      const total = m.values.reduce((a, v) => a + (v.value ?? 0), 0);
+      if (m.name === "reach") reach = total;
+      if (m.name === "impressions") impressions = total;
+    }
+  }
+
+  const capturedAt = new Date().toISOString();
+  const snapshot = {
+    social_account_id: account.id,
+    captured_at: capturedAt,
+    followers: user.followers_count ?? null,
+    posts: user.media_count ?? null,
+    reach,
+    impressions,
+    raw: { user },
   };
 
   const { error: insertErr } = await service
