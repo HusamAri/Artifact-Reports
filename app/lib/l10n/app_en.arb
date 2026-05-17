@@ -32,5 +32,10 @@
   "workspaceNameRequired": "Workspace name is required",
   "createWorkspace": "Create workspace",
   "redeemingInvite": "Redeeming invite…",
-  "goHome": "Go home"
+  "goHome": "Go home",
+  "connectedAccounts": "Connected accounts",
+  "connectAccount": "Connect account",
+  "noAccountsYet": "No accounts connected yet.",
+  "disconnect": "Disconnect",
+  "comingSoon": "Coming soon"
 }
