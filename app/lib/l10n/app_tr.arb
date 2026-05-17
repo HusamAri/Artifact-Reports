@@ -41,6 +41,8 @@
   "totalImpressions": "Toplam gösterim",
   "totalPosts": "Toplam gönderi",
   "totalReach": "Toplam erişim",
+  "followersOverTime": "Zaman içinde takipçi",
+  "notEnoughDataYet": "Henüz yeterli veri yok — trendleri görmek için birkaç kez daha senkronize et.",
   "apiKey": "API anahtarı",
   "apiKeyRequired": "API anahtarı zorunlu",
   "uberallApiKeyHint": "Uberall'da Hesap › API Erişimi altında özel anahtarını bulabilirsin.",

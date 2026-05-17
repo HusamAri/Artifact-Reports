@@ -11,6 +11,8 @@ import '../auth/auth_controller.dart';
 import '../metrics/metrics_controller.dart';
 import '../social_accounts/social_account_controller.dart';
 import '../workspace/workspace_controller.dart';
+import 'followers_chart.dart';
+import 'period_selector.dart';
 
 class DashboardScreen extends ConsumerWidget {
   const DashboardScreen({super.key});
@@ -65,9 +67,13 @@ class DashboardScreen extends ConsumerWidget {
                     ),
                 ],
               ),
+              const SizedBox(height: 16),
+              const PeriodSelector(),
               const SizedBox(height: 24),
               if (hasAnyKpi) ...[
                 _KpiGrid(kpis: kpis),
+                const SizedBox(height: 16),
+                const FollowersChart(),
                 const SizedBox(height: 16),
               ],
               _AccountsCard(count: accountCount, l10n: l10n),
