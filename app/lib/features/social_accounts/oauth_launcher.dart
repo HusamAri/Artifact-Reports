@@ -31,7 +31,7 @@ class OAuthLauncher {
         return 'oauth-gmb/start';
       case SocialPlatform.uberall:
         throw UnimplementedError(
-          '${platform.label} OAuth is not implemented yet.',
+          '${platform.label} uses an API key flow, not OAuth.',
         );
     }
   }
@@ -45,6 +45,11 @@ class OAuthLauncher {
       return false;
     }
   }
+
+  /// Returns true if [platform] connects via an in-app API key form
+  /// instead of OAuth (currently only Uberall).
+  bool isApiKeyBased(SocialPlatform platform) =>
+      platform == SocialPlatform.uberall;
 
   /// Asks the start edge function for an auth URL, then opens it in
   /// the external browser. Returns true if the URL was launched.

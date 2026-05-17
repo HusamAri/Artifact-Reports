@@ -8,6 +8,7 @@ import '../../features/auth/signup_screen.dart';
 import '../../features/dashboard/dashboard_screen.dart';
 import '../../features/social_accounts/connect_account_screen.dart';
 import '../../features/social_accounts/social_accounts_screen.dart';
+import '../../features/social_accounts/uberall_connect_screen.dart';
 import '../../features/workspace/invite_redeem_screen.dart';
 import '../../features/workspace/onboarding_screen.dart';
 import '../../features/workspace/workspace.dart';
@@ -80,6 +81,12 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           GoRoute(
             path: 'connect',
             builder: (context, state) => const ConnectAccountScreen(),
+            routes: [
+              GoRoute(
+                path: 'uberall',
+                builder: (context, state) => const UberallConnectScreen(),
+              ),
+            ],
           ),
         ],
       ),

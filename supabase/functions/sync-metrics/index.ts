@@ -86,6 +86,8 @@ Deno.serve(async (req: Request) => {
       return syncLinkedIn(service, account as SocialAccountRow);
     case "gmb":
       return syncGmb(service, account as SocialAccountRow);
+    case "uberall":
+      return syncUberall(service, account as SocialAccountRow);
     default:
       return json({ error: "platform_not_implemented" }, 501);
   }
@@ -469,6 +471,43 @@ async function syncGmb(
     followers: null,
     posts: null,
     raw: { account: acct },
+  };
+  const { error: insertErr } = await service
+    .from("metrics_snapshots")
+    .insert(snapshot);
+  if (insertErr) return json({ error: insertErr.message }, 500);
+
+  await service
+    .from("social_accounts")
+    .update({ last_synced_at: capturedAt })
+    .eq("id", account.id);
+
+  return json({ captured_at: capturedAt, snapshot }, 200);
+}
+
+async function syncUberall(
+  service: SupabaseClient,
+  account: SocialAccountRow,
+): Promise<Response> {
+  const key = account.access_token_encrypted;
+  if (!key) return json({ error: "no_api_key" }, 401);
+  const base = Deno.env.get("UBERALL_API_BASE") ?? "https://uberall.com/api";
+
+  const res = await fetch(`${base}/locations/${account.external_id}`, {
+    headers: { privatekey: key },
+  });
+  if (!res.ok) {
+    return json({ error: "uberall_api_error", detail: await res.text() }, 502);
+  }
+  const loc = await res.json();
+
+  const capturedAt = new Date().toISOString();
+  const snapshot = {
+    social_account_id: account.id,
+    captured_at: capturedAt,
+    followers: null,
+    posts: null,
+    raw: { location: loc },
   };
   const { error: insertErr } = await service
     .from("metrics_snapshots")

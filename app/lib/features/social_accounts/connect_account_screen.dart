@@ -28,12 +28,14 @@ class ConnectAccountScreen extends ConsumerWidget {
         separatorBuilder: (_, __) => const SizedBox(height: 8),
         itemBuilder: (_, i) {
           final platform = SocialPlatform.values[i];
-          final supported = launcher.isSupported(platform);
+          final apiKeyBased = launcher.isApiKeyBased(platform);
+          final supported = apiKeyBased || launcher.isSupported(platform);
           return _PlatformTile(
             platform: platform,
             supported: supported,
             trailingLabel: supported ? l10n.connect : l10n.comingSoon,
-            onTap: () => _handleTap(context, ref, platform, supported),
+            onTap: () =>
+                _handleTap(context, ref, platform, supported, apiKeyBased),
           );
         },
       ),
@@ -45,6 +47,7 @@ class ConnectAccountScreen extends ConsumerWidget {
     WidgetRef ref,
     SocialPlatform platform,
     bool supported,
+    bool apiKeyBased,
   ) async {
     final l10n = AppLocalizations.of(context);
     final messenger = ScaffoldMessenger.of(context);
@@ -52,6 +55,10 @@ class ConnectAccountScreen extends ConsumerWidget {
       messenger.showSnackBar(
         SnackBar(content: Text('${platform.label}: ${l10n.comingSoon}')),
       );
+      return;
+    }
+    if (apiKeyBased) {
+      context.push('/accounts/connect/uberall');
       return;
     }
     final workspaceId = ref.read(currentWorkspaceIdProvider);
