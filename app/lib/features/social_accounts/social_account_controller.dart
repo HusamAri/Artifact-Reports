@@ -3,6 +3,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../core/config/env.dart';
 import '../workspace/workspace_controller.dart';
+import 'oauth_launcher.dart';
 import 'social_account.dart';
 import 'social_account_repository.dart';
 
@@ -10,6 +11,10 @@ final socialAccountRepositoryProvider = Provider<SocialAccountRepository>((
   ref,
 ) {
   return SocialAccountRepository(Supabase.instance.client);
+});
+
+final oauthLauncherProvider = Provider<OAuthLauncher>((ref) {
+  return OAuthLauncher(Supabase.instance.client);
 });
 
 /// Social accounts for the currently selected workspace.
