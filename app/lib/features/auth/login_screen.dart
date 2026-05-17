@@ -76,7 +76,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       filled: true,
                       fillColor: AppColors.bgSurface,
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(AppRadius.iconButton),
+                        borderRadius:
+                            BorderRadius.circular(AppRadius.iconButton),
                       ),
                     ),
                   ),
@@ -89,13 +90,15 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       filled: true,
                       fillColor: AppColors.bgSurface,
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(AppRadius.iconButton),
+                        borderRadius:
+                            BorderRadius.circular(AppRadius.iconButton),
                       ),
                     ),
                   ),
                   if (_error != null) ...[
                     const SizedBox(height: 12),
-                    Text(_error!, style: const TextStyle(color: Colors.redAccent)),
+                    Text(_error!,
+                        style: const TextStyle(color: Colors.redAccent)),
                   ],
                   const SizedBox(height: 16),
                   FilledButton(
@@ -105,7 +108,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       foregroundColor: AppColors.textOnAccent,
                       padding: const EdgeInsets.symmetric(vertical: 14),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(AppRadius.iconButton),
+                        borderRadius:
+                            BorderRadius.circular(AppRadius.iconButton),
                       ),
                     ),
                     child: Text(_submitting ? '…' : l10n.signIn),

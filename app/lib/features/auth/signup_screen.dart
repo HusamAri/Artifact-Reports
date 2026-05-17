@@ -78,7 +78,8 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
                       filled: true,
                       fillColor: AppColors.bgSurface,
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(AppRadius.iconButton),
+                        borderRadius:
+                            BorderRadius.circular(AppRadius.iconButton),
                       ),
                     ),
                   ),
@@ -91,7 +92,8 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
                       filled: true,
                       fillColor: AppColors.bgSurface,
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(AppRadius.iconButton),
+                        borderRadius:
+                            BorderRadius.circular(AppRadius.iconButton),
                       ),
                     ),
                   ),
@@ -107,7 +109,8 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
                       foregroundColor: AppColors.textOnAccent,
                       padding: const EdgeInsets.symmetric(vertical: 14),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(AppRadius.iconButton),
+                        borderRadius:
+                            BorderRadius.circular(AppRadius.iconButton),
                       ),
                     ),
                     child: Text(_submitting ? '…' : l10n.signUp),

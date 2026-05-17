@@ -25,8 +25,7 @@ class DashboardScreen extends ConsumerWidget {
                 IconButton(
                   icon: const Icon(Icons.logout),
                   tooltip: l10n.signOut,
-                  onPressed: () =>
-                      ref.read(authControllerProvider).signOut(),
+                  onPressed: () => ref.read(authControllerProvider).signOut(),
                 ),
             ],
           ),
