@@ -84,6 +84,8 @@ Deno.serve(async (req: Request) => {
       return syncX(service, account as SocialAccountRow);
     case "linkedin":
       return syncLinkedIn(service, account as SocialAccountRow);
+    case "gmb":
+      return syncGmb(service, account as SocialAccountRow);
     default:
       return json({ error: "platform_not_implemented" }, 501);
   }
@@ -434,6 +436,93 @@ async function syncLinkedIn(
     .eq("id", account.id);
 
   return json({ captured_at: capturedAt, snapshot }, 200);
+}
+
+async function syncGmb(
+  service: SupabaseClient,
+  account: SocialAccountRow,
+): Promise<Response> {
+  const token = await ensureGoogleFreshToken(
+    service,
+    account,
+    Deno.env.get("GMB_CLIENT_ID")!,
+    Deno.env.get("GMB_CLIENT_SECRET")!,
+  );
+  if (!token) return json({ error: "token_refresh_failed" }, 401);
+
+  // Heartbeat against the account-management API confirms the token
+  // works; per-location performance metrics land in a follow-up that
+  // also surfaces the location picker.
+  const res = await fetch(
+    `https://mybusinessaccountmanagement.googleapis.com/v1/${account.external_id}`,
+    { headers: { Authorization: `Bearer ${token}` } },
+  );
+  if (!res.ok) {
+    return json({ error: "gmb_api_error", detail: await res.text() }, 502);
+  }
+  const acct = await res.json();
+
+  const capturedAt = new Date().toISOString();
+  const snapshot = {
+    social_account_id: account.id,
+    captured_at: capturedAt,
+    followers: null,
+    posts: null,
+    raw: { account: acct },
+  };
+  const { error: insertErr } = await service
+    .from("metrics_snapshots")
+    .insert(snapshot);
+  if (insertErr) return json({ error: insertErr.message }, 500);
+
+  await service
+    .from("social_accounts")
+    .update({ last_synced_at: capturedAt })
+    .eq("id", account.id);
+
+  return json({ captured_at: capturedAt, snapshot }, 200);
+}
+
+async function ensureGoogleFreshToken(
+  service: SupabaseClient,
+  account: SocialAccountRow,
+  clientId: string,
+  clientSecret: string,
+): Promise<string | null> {
+  const expiresAt = account.expires_at ? new Date(account.expires_at) : null;
+  if (
+    account.access_token_encrypted
+    && expiresAt
+    && expiresAt.getTime() - Date.now() > 60_000
+  ) {
+    return account.access_token_encrypted;
+  }
+  if (!account.refresh_token_encrypted) return null;
+  const res = await fetch("https://oauth2.googleapis.com/token", {
+    method: "POST",
+    headers: { "content-type": "application/x-www-form-urlencoded" },
+    body: new URLSearchParams({
+      client_id: clientId,
+      client_secret: clientSecret,
+      refresh_token: account.refresh_token_encrypted,
+      grant_type: "refresh_token",
+    }),
+  });
+  if (!res.ok) return null;
+  const tokens = await res.json() as {
+    access_token: string;
+    expires_in: number;
+  };
+  const newExpires = new Date(Date.now() + tokens.expires_in * 1000)
+    .toISOString();
+  await service
+    .from("social_accounts")
+    .update({
+      access_token_encrypted: tokens.access_token,
+      expires_at: newExpires,
+    })
+    .eq("id", account.id);
+  return tokens.access_token;
 }
 
 /// Returns a valid access token. If the stored token is expired,
