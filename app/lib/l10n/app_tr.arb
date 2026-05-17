@@ -31,5 +31,8 @@
   "connectAccount": "Hesap bağla",
   "noAccountsYet": "Henüz bağlı hesap yok.",
   "disconnect": "Bağlantıyı kes",
-  "comingSoon": "Yakında"
+  "comingSoon": "Yakında",
+  "connect": "Bağla",
+  "noWorkspaceSelected": "Seçili çalışma alanı yok.",
+  "finishInBrowser": "Bağlantıyı tarayıcıda tamamlayıp uygulamaya dön."
 }
