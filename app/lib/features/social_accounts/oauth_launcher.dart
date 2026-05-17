@@ -26,6 +26,7 @@ class OAuthLauncher {
       case SocialPlatform.x:
         return 'oauth-x/start';
       case SocialPlatform.linkedin:
+        return 'oauth-linkedin/start';
       case SocialPlatform.gmb:
       case SocialPlatform.uberall:
         throw UnimplementedError(

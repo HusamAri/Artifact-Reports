@@ -82,6 +82,8 @@ Deno.serve(async (req: Request) => {
       return syncTikTok(service, account as SocialAccountRow);
     case "x":
       return syncX(service, account as SocialAccountRow);
+    case "linkedin":
+      return syncLinkedIn(service, account as SocialAccountRow);
     default:
       return json({ error: "platform_not_implemented" }, 501);
   }
@@ -392,6 +394,46 @@ async function ensureXFreshToken(
     })
     .eq("id", account.id);
   return tokens.access_token;
+}
+
+async function syncLinkedIn(
+  service: SupabaseClient,
+  account: SocialAccountRow,
+): Promise<Response> {
+  const token = account.access_token_encrypted;
+  if (!token) return json({ error: "no_token" }, 401);
+
+  // /v2/userinfo confirms the token is still valid. LinkedIn doesn't
+  // expose personal-profile follower counts via the OIDC scope set,
+  // so the snapshot lands with null numerics — it still records a
+  // heartbeat and bumps last_synced_at.
+  const res = await fetch("https://api.linkedin.com/v2/userinfo", {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  if (!res.ok) {
+    return json({ error: "linkedin_api_error", detail: await res.text() }, 502);
+  }
+  const me = await res.json();
+
+  const capturedAt = new Date().toISOString();
+  const snapshot = {
+    social_account_id: account.id,
+    captured_at: capturedAt,
+    followers: null,
+    posts: null,
+    raw: { userinfo: me },
+  };
+  const { error: insertErr } = await service
+    .from("metrics_snapshots")
+    .insert(snapshot);
+  if (insertErr) return json({ error: insertErr.message }, 500);
+
+  await service
+    .from("social_accounts")
+    .update({ last_synced_at: capturedAt })
+    .eq("id", account.id);
+
+  return json({ captured_at: capturedAt, snapshot }, 200);
 }
 
 /// Returns a valid access token. If the stored token is expired,
