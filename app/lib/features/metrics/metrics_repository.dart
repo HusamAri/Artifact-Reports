@@ -28,7 +28,7 @@ class MetricsRepository {
     final rows = await _client
         .from('metrics_snapshots')
         .select(
-            'id, social_account_id, captured_at, followers, posts, impressions')
+            'id, social_account_id, captured_at, followers, posts, impressions, reach, engagement_rate')
         .inFilter('social_account_id', accountIds)
         .order('captured_at', ascending: false);
 

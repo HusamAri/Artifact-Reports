@@ -21,10 +21,22 @@ class DashboardScreen extends ConsumerWidget {
     final workspace = ref.watch(currentWorkspaceProvider);
     final accountCount =
         ref.watch(socialAccountsProvider).valueOrNull?.length ?? 0;
-    final totalFollowers = ref.watch(totalFollowersProvider);
+    final followers = ref.watch(totalFollowersProvider);
+    final impressions = ref.watch(totalImpressionsProvider);
+    final posts = ref.watch(totalPostsProvider);
+    final reach = ref.watch(totalReachProvider);
+
+    final kpis = <_Kpi>[
+      _Kpi(label: l10n.totalFollowers, value: followers),
+      _Kpi(label: l10n.totalImpressions, value: impressions),
+      _Kpi(label: l10n.totalPosts, value: posts),
+      _Kpi(label: l10n.totalReach, value: reach),
+    ];
+    final hasAnyKpi = kpis.any((k) => k.value != null);
+
     return Scaffold(
       body: SafeArea(
-        child: Padding(
+        child: SingleChildScrollView(
           padding: const EdgeInsets.all(20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -54,11 +66,8 @@ class DashboardScreen extends ConsumerWidget {
                 ],
               ),
               const SizedBox(height: 24),
-              if (totalFollowers != null) ...[
-                _KpiCard(
-                  label: l10n.totalFollowers,
-                  value: _formatNumber(totalFollowers),
-                ),
+              if (hasAnyKpi) ...[
+                _KpiGrid(kpis: kpis),
                 const SizedBox(height: 16),
               ],
               _AccountsCard(count: accountCount, l10n: l10n),
@@ -70,7 +79,35 @@ class DashboardScreen extends ConsumerWidget {
   }
 }
 
-String _formatNumber(int n) {
+class _Kpi {
+  const _Kpi({required this.label, required this.value});
+  final String label;
+  final int? value;
+}
+
+class _KpiGrid extends StatelessWidget {
+  const _KpiGrid({required this.kpis});
+
+  final List<_Kpi> kpis;
+
+  @override
+  Widget build(BuildContext context) {
+    return GridView.count(
+      crossAxisCount: 2,
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      crossAxisSpacing: 12,
+      mainAxisSpacing: 12,
+      childAspectRatio: 1.4,
+      children: [
+        for (final k in kpis) _KpiCard(label: k.label, value: k.value),
+      ],
+    );
+  }
+}
+
+String _formatNumber(int? n) {
+  if (n == null) return '—';
   if (n >= 1000000) return '${(n / 1000000).toStringAsFixed(1)}M';
   if (n >= 1000) return '${(n / 1000).toStringAsFixed(1)}K';
   return n.toString();
@@ -80,22 +117,22 @@ class _KpiCard extends StatelessWidget {
   const _KpiCard({required this.label, required this.value});
 
   final String label;
-  final String value;
+  final int? value;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: AppColors.bgSurface,
         borderRadius: BorderRadius.circular(AppRadius.card),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(label, style: AppTypography.caption),
-          const SizedBox(height: 8),
-          Text(value, style: AppTypography.kpiNumber),
+          Text(_formatNumber(value), style: AppTypography.kpiNumber),
         ],
       ),
     );
