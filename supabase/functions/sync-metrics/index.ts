@@ -80,6 +80,8 @@ Deno.serve(async (req: Request) => {
       return syncInstagram(service, account as SocialAccountRow);
     case "tiktok":
       return syncTikTok(service, account as SocialAccountRow);
+    case "x":
+      return syncX(service, account as SocialAccountRow);
     default:
       return json({ error: "platform_not_implemented" }, 501);
   }
@@ -275,6 +277,102 @@ async function ensureTikTokFreshToken(
       client_secret: Deno.env.get("TIKTOK_CLIENT_SECRET")!,
       refresh_token: account.refresh_token_encrypted,
       grant_type: "refresh_token",
+    }),
+  });
+  if (!res.ok) return null;
+  const tokens = await res.json() as {
+    access_token: string;
+    refresh_token?: string;
+    expires_in: number;
+  };
+  const newExpires = new Date(Date.now() + tokens.expires_in * 1000).toISOString();
+  await service
+    .from("social_accounts")
+    .update({
+      access_token_encrypted: tokens.access_token,
+      refresh_token_encrypted: tokens.refresh_token
+        ?? account.refresh_token_encrypted,
+      expires_at: newExpires,
+    })
+    .eq("id", account.id);
+  return tokens.access_token;
+}
+
+async function syncX(
+  service: SupabaseClient,
+  account: SocialAccountRow,
+): Promise<Response> {
+  const token = await ensureXFreshToken(service, account);
+  if (!token) return json({ error: "token_refresh_failed" }, 401);
+
+  const res = await fetch(
+    "https://api.twitter.com/2/users/me?user.fields=public_metrics",
+    { headers: { Authorization: `Bearer ${token}` } },
+  );
+  if (!res.ok) {
+    return json({ error: "x_api_error", detail: await res.text() }, 502);
+  }
+  const me = await res.json() as {
+    data?: {
+      public_metrics?: {
+        followers_count?: number;
+        following_count?: number;
+        tweet_count?: number;
+        listed_count?: number;
+      };
+    };
+  };
+  const stats = me.data?.public_metrics;
+  if (!stats) return json({ error: "no_public_metrics" }, 404);
+
+  const capturedAt = new Date().toISOString();
+  const snapshot = {
+    social_account_id: account.id,
+    captured_at: capturedAt,
+    followers: stats.followers_count ?? null,
+    posts: stats.tweet_count ?? null,
+    raw: stats,
+  };
+
+  const { error: insertErr } = await service
+    .from("metrics_snapshots")
+    .insert(snapshot);
+  if (insertErr) return json({ error: insertErr.message }, 500);
+
+  await service
+    .from("social_accounts")
+    .update({ last_synced_at: capturedAt })
+    .eq("id", account.id);
+
+  return json({ captured_at: capturedAt, snapshot }, 200);
+}
+
+async function ensureXFreshToken(
+  service: SupabaseClient,
+  account: SocialAccountRow,
+): Promise<string | null> {
+  const expiresAt = account.expires_at ? new Date(account.expires_at) : null;
+  if (
+    account.access_token_encrypted
+    && expiresAt
+    && expiresAt.getTime() - Date.now() > 60_000
+  ) {
+    return account.access_token_encrypted;
+  }
+  if (!account.refresh_token_encrypted) return null;
+
+  const basic = btoa(
+    `${Deno.env.get("X_CLIENT_ID")!}:${Deno.env.get("X_CLIENT_SECRET")!}`,
+  );
+  const res = await fetch("https://api.twitter.com/2/oauth2/token", {
+    method: "POST",
+    headers: {
+      "content-type": "application/x-www-form-urlencoded",
+      authorization: `Basic ${basic}`,
+    },
+    body: new URLSearchParams({
+      grant_type: "refresh_token",
+      refresh_token: account.refresh_token_encrypted,
     }),
   });
   if (!res.ok) return null;
