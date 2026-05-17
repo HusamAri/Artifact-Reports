@@ -34,5 +34,8 @@
   "comingSoon": "Yakında",
   "connect": "Bağla",
   "noWorkspaceSelected": "Seçili çalışma alanı yok.",
-  "finishInBrowser": "Bağlantıyı tarayıcıda tamamlayıp uygulamaya dön."
+  "finishInBrowser": "Bağlantıyı tarayıcıda tamamlayıp uygulamaya dön.",
+  "sync": "Senkronize et",
+  "syncSuccess": "Senkronize edildi.",
+  "totalFollowers": "Toplam takipçi"
 }

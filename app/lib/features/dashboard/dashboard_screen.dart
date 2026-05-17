@@ -8,6 +8,7 @@ import '../../core/theme/app_radius.dart';
 import '../../core/theme/app_typography.dart';
 import '../../l10n/generated/app_localizations.dart';
 import '../auth/auth_controller.dart';
+import '../metrics/metrics_controller.dart';
 import '../social_accounts/social_account_controller.dart';
 import '../workspace/workspace_controller.dart';
 
@@ -20,6 +21,7 @@ class DashboardScreen extends ConsumerWidget {
     final workspace = ref.watch(currentWorkspaceProvider);
     final accountCount =
         ref.watch(socialAccountsProvider).valueOrNull?.length ?? 0;
+    final totalFollowers = ref.watch(totalFollowersProvider);
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -52,10 +54,49 @@ class DashboardScreen extends ConsumerWidget {
                 ],
               ),
               const SizedBox(height: 24),
+              if (totalFollowers != null) ...[
+                _KpiCard(
+                  label: l10n.totalFollowers,
+                  value: _formatNumber(totalFollowers),
+                ),
+                const SizedBox(height: 16),
+              ],
               _AccountsCard(count: accountCount, l10n: l10n),
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+String _formatNumber(int n) {
+  if (n >= 1000000) return '${(n / 1000000).toStringAsFixed(1)}M';
+  if (n >= 1000) return '${(n / 1000).toStringAsFixed(1)}K';
+  return n.toString();
+}
+
+class _KpiCard extends StatelessWidget {
+  const _KpiCard({required this.label, required this.value});
+
+  final String label;
+  final String value;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: AppColors.bgSurface,
+        borderRadius: BorderRadius.circular(AppRadius.card),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(label, style: AppTypography.caption),
+          const SizedBox(height: 8),
+          Text(value, style: AppTypography.kpiNumber),
+        ],
       ),
     );
   }
