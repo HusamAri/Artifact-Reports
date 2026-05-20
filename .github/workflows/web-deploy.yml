@@ -44,15 +44,24 @@ jobs:
         run: flutter gen-l10n
 
       # GitHub Pages serves from /<repo>/, so the base href must match.
-      # SUPABASE_URL / SUPABASE_ANON_KEY are intentionally omitted — the
-      # public preview runs without auth (Env.isConfigured == false),
-      # which gates every Supabase call.
+      # Inject SUPABASE_URL / SUPABASE_ANON_KEY (and PUBLIC_REPORT_BASE_URL)
+      # from repo secrets so the auth + sync flows go live on the preview.
+      # Anon key is safe to ship in the bundle — RLS gates every row.
+      # If secrets are unset the build still succeeds; Env.isConfigured
+      # returns false and the dashboard placeholder renders.
       - name: Build web
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+          PUBLIC_REPORT_BASE_URL: ${{ secrets.PUBLIC_REPORT_BASE_URL }}
         run: |
           flutter build web \
             --release \
             --base-href "/${GITHUB_REPOSITORY##*/}/" \
-            --no-tree-shake-icons
+            --no-tree-shake-icons \
+            --dart-define=SUPABASE_URL="$SUPABASE_URL" \
+            --dart-define=SUPABASE_ANON_KEY="$SUPABASE_ANON_KEY" \
+            --dart-define=PUBLIC_REPORT_BASE_URL="$PUBLIC_REPORT_BASE_URL"
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
