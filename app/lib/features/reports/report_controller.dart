@@ -5,6 +5,7 @@ import '../../core/config/env.dart';
 import '../workspace/workspace_controller.dart';
 import 'report.dart';
 import 'report_repository.dart';
+import 'report_snapshot.dart';
 
 final reportRepositoryProvider = Provider<ReportRepository>((ref) {
   return ReportRepository(Supabase.instance.client);
@@ -24,4 +25,9 @@ final reportProvider = FutureProvider.family<Report?, String>((ref, id) async {
     if (r.id == id) return r;
   }
   return null;
+});
+
+final reportSnapshotProvider =
+    FutureProvider.family<ReportSnapshot?, String>((ref, reportId) async {
+  return ref.read(reportRepositoryProvider).latestSnapshot(reportId);
 });
