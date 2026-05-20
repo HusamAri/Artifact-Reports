@@ -3,32 +3,42 @@ import { isConfigured, supabasePublic } from "../../../lib/supabase";
 
 type Params = Promise<{ publicId: string }>;
 
-interface Report {
+interface ReportRow {
   id: string;
-  workspace_id: string;
   title: string;
-  config: { period_days?: number } | null;
   expires_at: string | null;
+  visibility: string;
 }
 
-interface Snapshot {
-  social_account_id: string;
-  captured_at: string;
-  followers: number | null;
-  impressions: number | null;
-  reach: number | null;
-  posts: number | null;
+interface SnapshotData {
+  captured_at?: string;
+  period_days?: number;
+  totals?: {
+    followers?: number | null;
+    impressions?: number | null;
+    reach?: number | null;
+    posts?: number | null;
+  };
+  accounts?: Array<{
+    account_id: string;
+    platform?: string;
+    display_name?: string;
+    followers?: number | null;
+    impressions?: number | null;
+    reach?: number | null;
+    posts?: number | null;
+  }>;
 }
 
 async function loadReport(publicId: string): Promise<{
-  report: Report;
-  totals: { followers: number | null; impressions: number | null; reach: number | null; posts: number | null };
+  report: ReportRow;
+  data: SnapshotData;
 } | null> {
   if (!isConfigured) return null;
 
   const { data: report } = await supabasePublic
     .from("reports")
-    .select("id, workspace_id, title, config, expires_at, visibility")
+    .select("id, title, expires_at, visibility")
     .eq("public_id", publicId)
     .eq("visibility", "public")
     .maybeSingle();
@@ -37,57 +47,21 @@ async function loadReport(publicId: string): Promise<{
     return null;
   }
 
-  // Pull every snapshot for the workspace's social accounts. RLS lets
-  // anon see them because the parent report is public — the join here
-  // happens via social_accounts.workspace_id.
-  const { data: accounts } = await supabasePublic
-    .from("social_accounts")
-    .select("id")
-    .eq("workspace_id", report.workspace_id);
-  const accountIds = (accounts ?? []).map((a) => a.id as string);
+  const { data: snapshot } = await supabasePublic
+    .from("report_snapshots")
+    .select("data")
+    .eq("report_id", report.id)
+    .order("created_at", { ascending: false })
+    .limit(1)
+    .maybeSingle();
 
-  let totals = {
-    followers: null as number | null,
-    impressions: null as number | null,
-    reach: null as number | null,
-    posts: null as number | null,
+  return {
+    report: report as ReportRow,
+    data: (snapshot?.data as SnapshotData) ?? {},
   };
-  if (accountIds.length > 0) {
-    const { data: snaps } = await supabasePublic
-      .from("metrics_snapshots")
-      .select("social_account_id, captured_at, followers, impressions, reach, posts")
-      .in("social_account_id", accountIds)
-      .order("captured_at", { ascending: false });
-    const latestPerAccount = new Map<string, Snapshot>();
-    for (const s of (snaps ?? []) as Snapshot[]) {
-      if (!latestPerAccount.has(s.social_account_id)) {
-        latestPerAccount.set(s.social_account_id, s);
-      }
-    }
-    const agg = (pick: (s: Snapshot) => number | null) => {
-      let sum = 0;
-      let any = false;
-      for (const s of latestPerAccount.values()) {
-        const v = pick(s);
-        if (v != null) {
-          sum += v;
-          any = true;
-        }
-      }
-      return any ? sum : null;
-    };
-    totals = {
-      followers: agg((s) => s.followers),
-      impressions: agg((s) => s.impressions),
-      reach: agg((s) => s.reach),
-      posts: agg((s) => s.posts),
-    };
-  }
-
-  return { report: report as Report, totals };
 }
 
-function formatNumber(n: number | null): string {
+function formatNumber(n: number | null | undefined): string {
   if (n == null) return "—";
   if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1)}M`;
   if (n >= 1_000) return `${(n / 1_000).toFixed(1)}K`;
@@ -96,12 +70,14 @@ function formatNumber(n: number | null): string {
 
 export default async function ReportPage({ params }: { params: Params }) {
   const { publicId } = await params;
-  const data = await loadReport(publicId);
-  if (!data) return notFound();
+  const loaded = await loadReport(publicId);
+  if (!loaded) return notFound();
 
-  const { report, totals } = data;
-  const periodDays = report.config?.period_days ?? 30;
-  const kpis: Array<{ label: string; value: number | null }> = [
+  const { report, data } = loaded;
+  const periodDays = data.period_days ?? 30;
+  const totals = data.totals ?? {};
+  const accounts = data.accounts ?? [];
+  const kpis: Array<{ label: string; value: number | null | undefined }> = [
     { label: "Total followers", value: totals.followers },
     { label: "Total impressions", value: totals.impressions },
     { label: "Total reach", value: totals.reach },
@@ -122,6 +98,24 @@ export default async function ReportPage({ params }: { params: Params }) {
           </div>
         ))}
       </section>
+      {accounts.length > 0 && (
+        <section style={styles.accountsSection}>
+          <h2 style={styles.h2}>Per account</h2>
+          {accounts.map((a) => (
+            <div key={a.account_id} style={styles.accountRow}>
+              <div>
+                <div style={styles.accountName}>
+                  {a.display_name ?? a.platform ?? "—"}
+                </div>
+                <div style={styles.accountPlatform}>{a.platform ?? ""}</div>
+              </div>
+              <div style={styles.accountFollowers}>
+                {formatNumber(a.followers ?? null)}
+              </div>
+            </div>
+          ))}
+        </section>
+      )}
       <footer style={styles.footer}>
         Powered by{" "}
         <a href="https://reports.artifact.studio" style={styles.footerLink}>
@@ -163,6 +157,20 @@ const styles: Record<string, React.CSSProperties> = {
   },
   cardLabel: { color: "#A1A1AA", fontSize: 12, fontWeight: 500 },
   cardValue: { fontSize: 40, fontWeight: 700, lineHeight: 1 },
+  accountsSection: { marginBottom: 32 },
+  h2: { margin: "0 0 12px", fontSize: 17, fontWeight: 600 },
+  accountRow: {
+    background: "#1A1A1F",
+    borderRadius: 20,
+    padding: "12px 16px",
+    marginBottom: 8,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  accountName: { fontSize: 15, fontWeight: 500 },
+  accountPlatform: { color: "#A1A1AA", fontSize: 12, marginTop: 2 },
+  accountFollowers: { fontSize: 17, fontWeight: 600 },
   footer: { color: "#71717A", fontSize: 12, textAlign: "center" },
   footerLink: { color: "#A855F7", textDecoration: "none" },
 };

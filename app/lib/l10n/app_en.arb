@@ -64,6 +64,8 @@
   "createReport": "Create",
   "reportDetails": "Report",
   "reportNotFound": "Report not found.",
+  "reportSnapshotMissing": "Snapshot missing for this report.",
+  "perAccount": "Per account",
   "publicReport": "Public",
   "privateReport": "Private",
   "lastNDays": "Last {days} days",

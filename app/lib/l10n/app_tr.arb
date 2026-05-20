@@ -58,6 +58,8 @@
   "createReport": "Oluştur",
   "reportDetails": "Rapor",
   "reportNotFound": "Rapor bulunamadı.",
+  "reportSnapshotMissing": "Bu rapor için snapshot bulunamadı.",
+  "perAccount": "Hesap bazında",
   "publicReport": "Herkese açık",
   "privateReport": "Özel",
   "lastNDays": "Son {days} gün",

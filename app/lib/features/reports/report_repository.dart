@@ -1,6 +1,7 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'report.dart';
+import 'report_snapshot.dart';
 
 class ReportRepository {
   ReportRepository(this._client);
@@ -68,6 +69,21 @@ class ReportRepository {
         )
         .single();
     return Report.fromJson(row);
+  }
+
+  /// Newest frozen snapshot for the report. The trigger from migration
+  /// 0007 inserts one on report creation, so this should always
+  /// return a row for reports created after that migration.
+  Future<ReportSnapshot?> latestSnapshot(String reportId) async {
+    final row = await _client
+        .from('report_snapshots')
+        .select('id, report_id, data, created_at')
+        .eq('report_id', reportId)
+        .order('created_at', ascending: false)
+        .limit(1)
+        .maybeSingle();
+    if (row == null) return null;
+    return ReportSnapshot.fromJson(row);
   }
 
   Future<void> softDelete(String reportId) async {
