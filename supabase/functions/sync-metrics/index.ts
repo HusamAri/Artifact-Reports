@@ -144,7 +144,69 @@ async function syncYouTube(
     .update({ last_synced_at: capturedAt })
     .eq("id", account.id);
 
+  // Best-effort recent-video pull. Errors here don't fail the sync —
+  // the metrics snapshot is the primary deliverable.
+  await syncYouTubePosts(service, account, accessToken);
+
   return json({ captured_at: capturedAt, snapshot }, 200);
+}
+
+async function syncYouTubePosts(
+  service: SupabaseClient,
+  account: SocialAccountRow,
+  accessToken: string,
+): Promise<void> {
+  // 1. Newest video ids on the channel.
+  const searchRes = await fetch(
+    `https://www.googleapis.com/youtube/v3/search?part=id&channelId=${account.external_id}&maxResults=10&order=date&type=video`,
+    { headers: { Authorization: `Bearer ${accessToken}` } },
+  );
+  if (!searchRes.ok) return;
+  const search = await searchRes.json() as {
+    items?: Array<{ id: { videoId?: string } }>;
+  };
+  const ids = (search.items ?? [])
+    .map((i) => i.id.videoId)
+    .filter((id): id is string => !!id);
+  if (ids.length === 0) return;
+
+  // 2. Snippet + statistics in one call.
+  const videosRes = await fetch(
+    `https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics&id=${ids.join(",")}`,
+    { headers: { Authorization: `Bearer ${accessToken}` } },
+  );
+  if (!videosRes.ok) return;
+  const videos = await videosRes.json() as {
+    items?: Array<{
+      id: string;
+      snippet?: {
+        publishedAt?: string;
+        title?: string;
+        thumbnails?: { medium?: { url: string } };
+      };
+      statistics?: {
+        viewCount?: string;
+        likeCount?: string;
+        commentCount?: string;
+      };
+    }>;
+  };
+
+  // 3. Upsert into posts.
+  const rows = (videos.items ?? []).map((v) => ({
+    social_account_id: account.id,
+    external_post_id: v.id,
+    posted_at: v.snippet?.publishedAt ?? null,
+    content: v.snippet?.title ?? "",
+    media_urls: v.snippet?.thumbnails?.medium?.url
+      ? [v.snippet!.thumbnails!.medium!.url]
+      : [],
+    metrics: v.statistics ?? {},
+  }));
+  if (rows.length === 0) return;
+  await service
+    .from("posts")
+    .upsert(rows, { onConflict: "social_account_id,external_post_id" });
 }
 
 async function syncInstagram(
