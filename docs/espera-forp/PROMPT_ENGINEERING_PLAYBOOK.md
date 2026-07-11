@@ -21,15 +21,51 @@ Husam = Turkish. Never leave a line's accent unspecified.
 NOT voluminous, no big bouncy volume**, center-parted; thick dark near-joining eyebrows; hazel-green eyes;
 freckles scattered across nose and cheeks; lean athletic build; olive-fair Mediterranean skin with real
 pores; small mole below the left collarbone. Natural, un-retouched.
-**HUSAM:** early-30s man; dark hair buzzed short at the sides, longer textured on top; short stubble;
-olive Mediterranean skin; lean build. In DESTRUCCIÓN: plain black t-shirt, over-ear headphones around neck,
-face shown only from behind or in silhouette.
+**HUSAM:** early-30s man; dark hair short at the sides, longer textured on top; **FULL dark beard**
+(not light stubble — real reference is a full beard); olive Mediterranean skin, real pores; lean build.
+Wardrobe: plain black t-shirt, over-ear headphones. Canon = face only from behind/silhouette, BUT this rule
+is LIFTED for the current video (director's call) — his face MAY be shown. Face-shown → Nano Banana Pro +
+his real face photos (7b56878a, 20bd2277, 76e3fe2c, d5a7a1fa) or Husam Soul 76fab95a.
 
 ## HARD RULE #0 — @HANDLES GO INLINE IN THE PROMPT BODY (I keep forgetting this)
 Every attached element MUST be written by its exact `@handle` **inside the prompt text, at the
 exact spot the element appears** — not only in the attachment list. Pendant sentence → `@Necklage-of-Fede`.
 Coat sentence → `@Consigliera-palto`. If an element is attached but its handle is not inline, the
 prompt is INCOMPLETE — rewrite before sending. (Missed on d6a2eac8-followup and G-A1 v1.)
+
+## HARD RULE #-5 — NO EYE CONTACT WITH THE LENS
+Characters must NOT look at the camera. Gaze stays inside the scene — out the window, at the other
+character, downward, or off to the side. Direct-to-lens eye contact breaks the film's grammar
+(Aronofsky "Mother": half-profile, absorbed, never addressing the camera). Write it in every prompt:
+"she/he does NOT look at the camera; gaze directed within the scene, never eye contact with the lens."
+
+## CANON — FEDERICA & HUSAM = PLATONIC BEST FRIENDS (never romantic)
+Their bond is a deep, trusting FRIENDSHIP — never a romance. In every Fed+Husam shot stage them as
+close friends / allies: side by side, companionable, brotherly-sisterly, shared history, sometimes
+confrontational — but NEVER a couple. No romantic gaze, no leaning-in intimacy, no hand-holding, no
+lovers' framing. Write "platonic close friends, not a couple, no romantic subtext" in every two-hander.
+
+## CANON — MARMO = MARBLE DOUBLE
+Marmo (Federica's mirror-double / reflection in the Mirror Room) is rendered as a MARBLE figure —
+a pale carved-marble statue-like version of Federica's face and body, not a normal flesh reflection.
+Every Mirror-Room reflection/double = marble. **ATTACH the Marmo element `@Mirror-self` (98969c27)** in
+those shots (via <<<98969c27>>> or as a Nano reference) — don't just describe it. Marble finish + Federica's face.
+
+## HARD RULE #-4 — SOUL ⊕ ELEMENTS ARE MUTUALLY EXCLUSIVE IN ONE IMAGE
+The Soul pipeline (`text2image_soul_v2` / soul_2) IGNORES `<<<element>>>` injection and INVENTS the prop
+(proof: 0b241cc9 → wreath pendant; 4d2bd1b2 → giant flower brooch — both wrong, from a perfect Soul face).
+You CANNOT pass a soul_id and bind elements in the same generation.
+→ To get BOTH the Soul-faithful face AND exact props: use **Nano Banana Pro** with the SOUL'S OWN
+real training photos as face references (medias) + the elements via `<<<id>>>`. That IS "soul + elements".
+Proven by the winning taksi keyframe 652324a8. Soul-model alone = face only, props out of frame only.
+
+## HARD RULE #-3 — PENDANT ON SCREEN ⇒ @Necklage-of-Fede ATTACHED, ALWAYS
+Any shot where the pendant is visible MUST attach the `@Necklage-of-Fede` element (74930eee).
+Text description alone (or a Soul-only render) makes the model INVENT a wrong pendant — proven by
+job 0b241cc9 (Soul, no element → generic wreath medallion). Soul gives the face; the element gives
+the pendant. A pendant-visible shot without the element attached is INVALID — do not send it.
+⇒ For prop-bearing keyframes use Nano Banana Pro (real face photos + @Necklage-of-Fede + @Consigliera-palto),
+NOT Soul-only. Soul-only is fine only when the pendant is out of frame.
 
 ## THE ONE LAW THAT OVERRIDES EVERYTHING
 **Text negatives cannot beat reference pixels.** Whatever is baked into a reference image
