@@ -60,6 +60,12 @@ Protocol per generation: ffprobe (fps/res/dur) → extract first/mid/last + inte
 - **The Duel Gold vs Marble (SK16-19) = fed1697d** ✅ Fed gold-veined vs marble double w/ gold kintsugi cracks, both lit, off-cam
 Technique win: bake VFX into still + "effect lights its surroundings" + short negatives = film-real power, not neon-CG.
 
+## KLING 3.0 VIDEO PRODUCTION — BATTLE SECTION (i2v from approved keyframes; audit after each, ask user)
+| # | Job ID | Beat | Model/mode | Verdict | Frame-checked findings |
+|---|--------|------|-----------|---------|------------------------|
+| V1 | 99f055ad | Battle Shot 1 — Awakening / Gilded Veins (start=fb7bd695) | kling3_0 · 4k · 5s · silent · 16:9→4424×1872 (~2.36:1) | ✅ PASS | Face=real Federica, held 5s no morph; pendant Foglia d'Oro correct; gold veins pulse+spread & LIGHT the scene (film-real, not neon/CG); gaze off-lens; hand fingers natural no morph; one slow push-in. Minor: pendant emits a strong horizontal gold flare-streak mid/late (anamorphic-ish, on-brand warm gold) — taste call, not a defect. |
+Kling 3.0 facts confirmed in-tool: full model = mode std/pro/4k + sound on/off + start_image/end_image; NO 21:9 (16:9 req → output came ~2.36:1 anyway); 4k mode renders 3840→4424 wide. Battle shots run SILENT (one master audio pass in post).
+
 ## ACT V DEATH-BEAT KEYFRAMES NEEDED (screenplay-locked, see Playbook CANON — DOUBLE DEATH)
 - SK17 İzin — Fed releases Marmo's hand, walks to mirror; OLD Husam waiting in glass — NOT YET
 - SK18 Marmo crosses INTO mirror toward old Husam — NOT YET
