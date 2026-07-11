@@ -47,8 +47,14 @@ Base: `blur, distort, low quality, warping fingers, frozen lips, jittery eyes`
 Body: `+ deformed hands, extra fingers, rubber limbs, morphing body parts, sliding feet`
 VFX/marble: `+ cheap CG, plastic look, flickering, geometric distortion, floating debris`
 
-## SETTINGS
-1080p (Pro if exposed), **5–10s**, one move, one action, VFX baked into start_image. Draft cheap to iterate → final hero shots at 1080p.
+## SETTINGS  (Higgsfield full `kling3_0`, verified in-tool)
+mode = **std / pro / 4k** (4k = highest quality — director prefers 4k). medias = **start_image + end_image**. Aspect
+16:9/9:16/1:1 → NO 21:9 (16:9 4k output came ~4424×1872 ≈ 2.36:1 anyway; reframe to true 21:9 in edit). **5–10s**,
+one move, one action, VFX baked into start_image.
+- **SOUND = `on` — DIRECTOR RULE (always, "ne olur ne olmaz").** Do NOT render silent even for wordless VFX beats;
+  Kling's native audio comes along "just in case" and we still do a master pass in post. (Earlier silent default was WRONG.)
+- **MULTI-SHOT: when a scene has more than one shot, ENABLE multi-shot** (`multi_shots: true` + separate `multi_prompt`
+  shot fields, one move each) — never cram multiple shots into one prose field. Single continuous beat = single shot, no multishot.
 
 ## FAILURE → FIX
 hang@99% → add end-state · morph/rubber → anchor hands+lean negative+5–10s · warp on move → one slow move, orbit ≤30°
