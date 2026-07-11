@@ -64,12 +64,21 @@ Federica & Husam are platonic — the grief is loyalty, not love.
   shows RELEASE/relief — a burden lifting. He kneels, then falls. The petrified body will crumble toward dust.
   On THIS side of the glass a single **gold drop** falls on real Federica's cheek — it does NOT flow, it stops.
   Federica, broken, in Spanish (Spain): *"¡Espera! ¡No!"*
-- **SK20 Marmo dissolves:** the marble softens back to flesh, the corrupted pendant returns to blue **lapis lazuli**
-  (alive, intact) — **REAL FEDERICA emerges** in the mirror world, tired/sweaty but alive.
-- **SK21 Revelation:** old Husam's petrified form disperses to **dust** and vanishes; **NEW / RENEWED HUSAM** stands
-  beside real Federica, both in the mirror world (platonic, side by side). Line: *"We were both."*
-- **Şile coda (SK22–26), weeks later:** Federica sits at the Şile / Black-Sea coast; the **renewed NEW Husam** sits
-  down beside her. The day closed with the death; life carries the same lesson forward.
+  **→ REVISED ENDING (director, supersedes the old on-screen aftermath):** the moment Federica screams, **HARD CUT
+  TO BLACK.** We do **NOT** show what she lived through in that room afterward (Marmo dissolving, real Federica
+  emerging, old Husam turning to dust) — it happens off-screen, implied. Scream → black. That is the end of Act V.
+- **SK20–21 (old on-screen revelation) = CUT.** Do not build/animate the mirror-room aftermath as shots. The renewal
+  is inferred; Husam simply reappears renewed in Şile.
+- **Act VI Şile coda (weeks later) — REVISED, song = "Un Segundo Después":**
+  · Federica sits alone at the Şile / Black-Sea coast, silent, for a while.
+  · Then **Husam (renewed) sits down beside her.**
+  · **HUSAM (English + Spanish, "Un Segundo Después" line):** *"You taught me that — sorrow tiene su compás."*
+    (verify exact wording with director.)
+  · **FEDERICA replies in an ITALIAN accent** — a meaningful line from the song's **FINAL BRIDGE**
+    (⚠ lyrics owned by director; DO NOT fabricate — insert the exact line once provided).
+  · They **laugh, drink their mojitos** — warm, platonic, alive. End on that.
+  (Old coda used "Mar Adentro" + "Aspetta. Sempre aspetta." — treat Un Segundo Después as the new closing song
+  unless the director keeps Mar Adentro as the Act VI opener.)
 - **THE SURPRISE — SK27 after-credits (never forget):** black. The mirror surface appears, EMPTY, no one, just glass.
   A **hairline crack**. From the crack a single **gold drop** seeps, descends slowly — **does NOT flow, it stops**
   (rhymes exactly with the gold drop on Federica's cheek in SK19). Then SK28 hard cut to black — SON. Meaning: the
