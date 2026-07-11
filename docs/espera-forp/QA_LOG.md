@@ -51,6 +51,15 @@ Protocol per generation: ffprobe (fps/res/dur) → extract first/mid/last + inte
 - Ballroom     = 387c0c8e  (burgundy high-neck gown + pendant, gothic hall)
 - Şile Act VI  = 1b7becd0  (geisha tattoo + leopard, from behind)
 
+## POWER-VFX START_IMAGES (baked-VFX technique: effect in the still + material/light physics)
+- Gilded Veins (awakening) = **fb7bd695** ✅ (clothed re-run; d3d06252 was NSFW-blocked) — gold veins on neck/hand, pendant blazes
+- Marmo Shatter (marble+gold) = **347ef08a** ✅ (clothed re-run; 35ca3bc8 was NSFW-blocked) — kintsugi cracks, shards+gold dust
+- (NSFW fix: add "fully clothed/covered, tasteful, no nudity" for power/marble shots)
+- **Gold Fall (leaf storm) = 57082eae** ✅ real face, gold leaves swirl, veins glow, pendant blazes, gold lights the room, no neon/CG
+- Marmo Shatter (marble+gold kintsugi) = 35ca3bc8
+- **The Duel Gold vs Marble (SK16-19) = fed1697d** ✅ Fed gold-veined vs marble double w/ gold kintsugi cracks, both lit, off-cam
+Technique win: bake VFX into still + "effect lights its surroundings" + short negatives = film-real power, not neon-CG.
+
 ## OPEN FIXES CARRIED FORWARD
 - Face master: **Federica-Combined Soul eab233e4** (training) — re-run cards on it once verified.
 - Hair: always "fine THIN, not voluminous."
