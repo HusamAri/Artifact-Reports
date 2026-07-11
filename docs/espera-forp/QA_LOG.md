@@ -64,6 +64,7 @@ Technique win: bake VFX into still + "effect lights its surroundings" + short ne
 | # | Job ID | Beat | Model/mode | Verdict | Frame-checked findings |
 |---|--------|------|-----------|---------|------------------------|
 | V1 | 99f055ad | Battle Shot 1 — Awakening / Gilded Veins (start=fb7bd695) | kling3_0 · 4k · 5s · silent · 16:9→4424×1872 (~2.36:1) | ✅ PASS | Face=real Federica, held 5s no morph; pendant Foglia d'Oro correct; gold veins pulse+spread & LIGHT the scene (film-real, not neon/CG); gaze off-lens; hand fingers natural no morph; one slow push-in. Minor: pendant emits a strong horizontal gold flare-streak mid/late (anamorphic-ish, on-brand warm gold) — taste call, not a defect. |
+| V1b | 37cb15e1 | Battle Shot 1 — Awakening, SOUND version (start=fb7bd695) | kling3_0 · 4k · 5s · **sound ON** | ✅ PASS | Visually equal/better than silent (tighter comp); face held, pendant+veins+light all correct, hand natural, gaze off-lens. Audio = AAC stereo 44.1k present (Kling native; master mix in post). Director rule: render sound ON henceforth. |
 Kling 3.0 facts confirmed in-tool: full model = mode std/pro/4k + sound on/off + start_image/end_image; NO 21:9 (16:9 req → output came ~2.36:1 anyway); 4k mode renders 3840→4424 wide. Battle shots run SILENT (one master audio pass in post).
 
 ## ACT V DEATH-BEAT KEYFRAMES NEEDED (screenplay-locked, see Playbook CANON — DOUBLE DEATH)
