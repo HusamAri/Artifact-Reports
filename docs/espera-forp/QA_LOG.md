@@ -44,7 +44,7 @@ Protocol per generation: ffprobe (fps/res/dur) → extract first/mid/last + inte
 - SK14/18 Marmo+Husam = 30fceab6 ✅
 - SK21 revelation Fed+Husam = 1f6eb2af ✅ (platonic, respectful distance)
 - SK23-25 Şile Fed+Husam = 010264e7 ✅ (platonic, arm's length)
-- SK27 gold-leaf mirror insert = 8f4fd9e2 ✅ (no people)
+- SK27 gold-leaf mirror insert = 8f4fd9e2 ⚠ REDO — the real SURPRISE is EMPTY mirror + hairline CRACK + ONE gold drop that seeps from the crack, descends, does NOT flow, STOPS (rhymes with the gold drop on Federica's cheek in SK19). 8f4fd9e2 was gold-LEAF, not this. Rebuild as empty cracked mirror + single frozen gold drop.
 
 ## FEDERICA START_IMAGES — LOCKED SET (all via Nano Banana Pro + Soul face photos + scene elements)
 - Taksi Act I  = 652324a8  (oxblood coat + pendant, noir)
@@ -59,6 +59,16 @@ Protocol per generation: ffprobe (fps/res/dur) → extract first/mid/last + inte
 - Marmo Shatter (marble+gold kintsugi) = 35ca3bc8
 - **The Duel Gold vs Marble (SK16-19) = fed1697d** ✅ Fed gold-veined vs marble double w/ gold kintsugi cracks, both lit, off-cam
 Technique win: bake VFX into still + "effect lights its surroundings" + short negatives = film-real power, not neon-CG.
+
+## ACT V DEATH-BEAT KEYFRAMES NEEDED (screenplay-locked, see Playbook CANON — DOUBLE DEATH)
+- SK17 İzin — Fed releases Marmo's hand, walks to mirror; OLD Husam waiting in glass — NOT YET
+- SK18 Marmo crosses INTO mirror toward old Husam — NOT YET
+- SK19 PETRIFY — Marmo's hand on old Husam's FOREHEAD; his face VISIBLE, release; flesh→pale marble; gold drop frozen on Fed's cheek — NOT YET (hero VFX beat)
+- SK20 Marmo dissolves → REAL Federica emerges; pendant back to blue lapis — NOT YET
+- SK21 Revelation — old Husam→dust; NEW/renewed Husam beside real Fed (platonic) — partial (1f6eb2af is Fed+Husam platonic, but not the dust/renewal beat)
+- SK22–26 Şile coda — renewed NEW Husam sits beside Fed (weeks later) — have 010264e7 (Şile Fed+Husam platonic); confirm "renewed" styling
+- SK27 SURPRISE — empty cracked mirror + one frozen gold drop — REDO (see above)
+Have already: fed1697d (Duel gold vs marble SK16-19), 53f2432e (Fed+Marmo SK15), 347ef08a (Marmo Shatter kintsugi).
 
 ## OPEN FIXES CARRIED FORWARD
 - Face master: **Federica-Combined Soul eab233e4** (training) — re-run cards on it once verified.

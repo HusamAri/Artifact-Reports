@@ -51,6 +51,32 @@ a pale carved-marble statue-like version of Federica's face and body, not a norm
 Every Mirror-Room reflection/double = marble. **ATTACH the Marmo element `@Mirror-self` (98969c27)** in
 those shots (via <<<98969c27>>> or as a Nano reference) — don't just describe it. Marble finish + Federica's face.
 
+## CANON — ACT V "DOUBLE DEATH" (SK17–21) + THE SURPRISE (SK27)  — from the screenplay, LOCKED
+This is NOT a tragic loss and NOT a romance. It is the **death of the OLD selves** so the renewed ones live.
+Federica & Husam are platonic — the grief is loyalty, not love.
+- **SK17 İzin:** Federica lets go of Marmo's hand, walks to the Venetian mirror. Both face the same way.
+  In the mirror world waits **OLD HUSAM** — tired, silent, shoulders down, eyes low (his former, defeated self).
+- **SK18 Marmo crosses:** Marmo (marble double) steps forward; the glass accepts her; she passes INTO the mirror
+  world and approaches old Husam.
+- **SK19 The gesture = PETRIFY (cause of death, director-confirmed):** Marmo places her hand on old Husam's
+  **FOREHEAD** (mercy, not violence — not throat, not heart). She uses **Petrify**: his flesh turns to pale marble
+  from the point of contact. **His FACE IS VISIBLE this one time** (face-hide rule lifted for the death beat) and
+  shows RELEASE/relief — a burden lifting. He kneels, then falls. The petrified body will crumble toward dust.
+  On THIS side of the glass a single **gold drop** falls on real Federica's cheek — it does NOT flow, it stops.
+  Federica, broken, in Spanish (Spain): *"¡Espera! ¡No!"*
+- **SK20 Marmo dissolves:** the marble softens back to flesh, the corrupted pendant returns to blue **lapis lazuli**
+  (alive, intact) — **REAL FEDERICA emerges** in the mirror world, tired/sweaty but alive.
+- **SK21 Revelation:** old Husam's petrified form disperses to **dust** and vanishes; **NEW / RENEWED HUSAM** stands
+  beside real Federica, both in the mirror world (platonic, side by side). Line: *"We were both."*
+- **Şile coda (SK22–26), weeks later:** Federica sits at the Şile / Black-Sea coast; the **renewed NEW Husam** sits
+  down beside her. The day closed with the death; life carries the same lesson forward.
+- **THE SURPRISE — SK27 after-credits (never forget):** black. The mirror surface appears, EMPTY, no one, just glass.
+  A **hairline crack**. From the crack a single **gold drop** seeps, descends slowly — **does NOT flow, it stops**
+  (rhymes exactly with the gold drop on Federica's cheek in SK19). Then SK28 hard cut to black — SON. Meaning: the
+  gold (the power / Marmo) is not fully gone; a seed remains. Keep this sting — it is the film's last image.
+Keyframe note: Petrify = flesh→pale marble spreading from the forehead contact, then marble→dust; warm-gold vein
+accents in the cracks (kintsugi link); real Husam face visible on the death beat only; never neon, never clean-CG.
+
 ## HARD RULE #-4 — SOUL ⊕ ELEMENTS ARE MUTUALLY EXCLUSIVE IN ONE IMAGE
 The Soul pipeline (`text2image_soul_v2` / soul_2) IGNORES `<<<element>>>` injection and INVENTS the prop
 (proof: 0b241cc9 → wreath pendant; 4d2bd1b2 → giant flower brooch — both wrong, from a perfect Soul face).
