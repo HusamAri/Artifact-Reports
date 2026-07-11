@@ -39,15 +39,59 @@ Fede (warm living gold) vs Marmo (cold marble double) = two halves of one self. 
 GOLD vs STONE; kintsugi gold in Marmo's cracks says they were always the same.
 
 ---
-## DIRECTING TECHNIQUE MAP  (right technique → right shot)
-> Enriched by a best-practice research pass (see companion notes); core rules locked below.
-- **Face lock:** Soul (best face, no props, 16:9) for pure-face; **Nano Banana Pro + the Soul's real photos +
-  elements** for prop-bearing keyframes (face + pendant together). Soul ⊕ elements impossible in one gen.
-- **Keyframe-first:** lock a Nano start_image → animate with Seedance (image-to-video). Never straight text-to-video for heroes.
-- **Coverage:** master + reverse/profile + inserts share ONE contract; only camera changes → clean intercut.
-- **Camera:** locked tripod default; push-in ONLY on Federica's face; exactly one pan (SK21). Declare move explicitly.
-- **Power VFX:** bake the effect into the start_image (gold bloom on skin, leaves mid-air), THEN animate; if
-  needed, composite a second pass. Describe real gravity/weight; forbid neon + clean-CG.
-- **Two-handers:** Nano + BOTH characters' face refs + "a WOMAN … and a MAN …" explicit; Marmo = marble via @Mirror-self.
-- **No eye contact with lens; no burned-in labels in prompts; constants-lock in every negative.**
-- **Finish:** upscale_video 2K/4K; reframe for 9:16 cutdowns (Kling); consistent grain/grade; audio+accents in post.
+## DIRECTING TECHNIQUE MAP  (right technique → right shot)  [best-practice researched, 2026]
+**Governing model:** the frame is where you direct PRECISION; the video model is where you direct MOTION.
+Lock look/identity/VFX in a STILL (Nano Banana Pro / Soul Cinema), then hand Seedance a small, unambiguous
+motion job. Every failure traces to asking the video model to invent what you should have baked into the frame.
+
+**1. Consistency.** Soul ID anchors any recurring hero (locks identity, NOT wardrobe/props → pair with elements).
+Nano Banana Pro multi-ref = one-off face lock, best at **≤6 clean refs** (more averages into "no one").
+Priority when they conflict: **Soul > start_image > multi-ref > text.**
+
+**2. Keyframe-first.** Nano/Soul-Cinema still → approve → Seedance **image-to-video** + one-line motion.
+Text-to-video only for abstract inserts. Shot must ARRIVE at a target (transformation end / match-cut) →
+give **first AND last frame**, model interpolates between locked endpoints.
+
+**3. Coverage that cuts.** Prefer **separate gens from the SAME locked refs** over one mega multi-shot
+(single-gen multi-shot degrades per-shot quality). Master + reverse + insert from one keyframe set. State
+**screen direction** (who faces frame-left/right) or reverses flip eyelines and won't cut (180° line).
+
+**4. Camera — ONE move per shot (iron rule).** static / slow push-in / dolly-out / pan / tilt / track / orbit /
+crane — pick ONE, add speed+stabilizer ("slow 3s dolly in, gimbal, stabilized"). Static must be said
+("locked-off, tripod, no camera movement"). Slow = clean; fast = warped faces/geometry. Hard move → feed a
+**video reference** of the path, or `motion_control`. Our film: locked tripod; push-in only on Federica's face; one pan (SK21).
+
+**5. Power VFX (Gold Fall / marble).** BAKE the effect into the start_image (gold veins glowing, leaves mid-air,
+marble skin) → then animate. Describe **material + light physics**, not "magic": the effect must LIGHT its
+surroundings ("gold glow spills warm onto her cheek and the wall"). Anchor "35mm, volumetric light, real-world
+physics, practical in-camera"; forbid "neon, 3D-render/CG look, cartoon, plastic sheen." Big transformation →
+**split across 2 clips** at a flash/whip/impact (one clip A→Z = mush). Hardest hero VFX → composite plate + effect
+pass, then video-to-video to marry grain.
+
+**6. Transitions.** Match cut / morph / flash = design the two ENDPOINTS to rhyme (shared shape/rotation/centroid),
+cut in the edit — don't ask one gen to "do a transition." Hard optical: bake a white frame; next clip "continue from the white flash."
+
+**7. Continuity.** Constants-lock (same descriptors + same elements every shot — continuity = sameness of inputs).
+Negatives are **scalpels: 5–15 observed tokens**, never a 40-token block. Role-tag refs vs contamination. Direct
+gaze positively; "looking at camera" negative only if it persists.
+
+**8. Finish.** Upscale AFTER the edit locks (`upscale_video`; Topaz Astra). Author native 21:9, `reframe`/`outpaint`
+DOWN to 9:16/1:1 (never up). ONE master grade + a SINGLE grain pass (~15–20) over the whole locked timeline.
+Audio: `generate_audio` + lip-sync; specify accent/delivery; keep the mouth visible (front-3/4) on speaking lines.
+
+### FAILURE → CAUSE → FIX
+| Failure | Cause | Fix |
+|---|---|---|
+| Face drift | text identity / clip too long / big motion | Soul + start_image; shorten; cut before drift |
+| Prop/wardrobe morph | described not locked | element every shot; bake into keyframe |
+| Doubled figures | ambiguous count / big move | state exact count; negative `double,extra person`; slow camera |
+| Wrong framing | trusting text for layout | author the frame in NBP; start_image (+end frame) |
+| Burned-in text | hallucinated signage/labels | negative `text,watermark,subtitles`; NEVER put labels in the prompt |
+| Camera drifts/nothing | no/too-many moves | one move + stabilizer; static = "locked-off tripod" |
+| Neon/CG-cheap VFX | "magic"-level prompt | bake VFX in still; material+light physics; regrain |
+| Morph mush | endpoints share no geometry | rhyme start/end; split across 2 clips |
+| Subject stares at lens | model default | direct gaze positively; negative only if persists |
+| Shots don't feel like one film | per-shot grade/grain | one master grade + single grain pass on locked timeline |
+
+**Caveats:** single-gen multi-shot degrades quality (prefer separate gens from shared refs for clean cuts);
+vendor numeric caps shift between versions — verify in-tool. Principles are stable, numbers are not.
