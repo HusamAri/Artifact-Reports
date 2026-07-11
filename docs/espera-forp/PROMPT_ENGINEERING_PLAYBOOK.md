@@ -93,6 +93,21 @@ environments are NEVER attached as elements on a close-up.
 - Combine only same set + same cast + same light. Heroes and big prop-state changes stay solo.
 - A phone screen changing (blank→"F") is a fine 2-shot beat; a location change is not.
 
+## PRODUCTION WORKFLOW — two passes, then edit (we were only shooting single masters)
+**PASS 1 — MASTERS.** Build + approve the master (hero angle) of each sequence — the spine of the film.
+**PASS 2 — COVERAGE & INSERTS ("ara sahneler"), added AFTER the master is locked.** For every key beat, go back and add:
+  - alt angle(s) of the SAME moment (reverse / profile / over-shoulder), matched to the master's Contract;
+  - inserts / cutaways (pendant CU, hands, phone screen, eyes, rain-on-glass, object detail).
+  All coverage shares the master's Constants Lock (identity, makeup, wardrobe, light, grade); only camera changes → clean intercut.
+**EDIT.** Assemble master + coverage + inserts into the cut; inserts hide joins and control rhythm.
+This is standard film grammar (masters → coverage → inserts → edit) — no beat ships on one angle again.
+
+## MAKEUP = part of costume, director-driven, identity-safe
+Makeup is a STYLING layer the director sets per scene; it changes the surface (eye, brow grooming, skin
+finish, lip, condition) but NEVER the bone structure, face shape, freckles, or identity — those stay real
+(the Soul). Write makeup explicitly in every prompt (Contract §5). Default arc: Act I composed power look →
+Acts III–V eroding/tear-worn → Act VI Şile bare. Husam: realistic skin only, no cosmetic makeup.
+
 ## STANDING QA LOOP (mandatory every cycle)
 1. Write prompt ONLY by filling `SHOT_CONTRACT_TEMPLATE.md` — every Constants-Lock slot filled, nothing forgotten.
 2. Deliver prompt + attach list to user; user generates.

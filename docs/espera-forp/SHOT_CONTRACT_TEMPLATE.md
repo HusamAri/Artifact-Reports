@@ -33,8 +33,24 @@ Every prompt is written from ZERO (Rule #-1): no "same as before", re-describe t
 - HUSAM: early-30s man; dark hair buzzed sides, longer textured on top; short stubble; olive skin; lean; black tee + over-ear headphones; face ONLY from behind / silhouette.
 - Who / where / action / ALONE?:
 
-## 5. WARDROBE (explicit garment, not just @handle)
+## 5. WARDROBE + MAKEUP (explicit)
+- Garment (explicit, not just @handle):
+- MAKEUP (director's look — STYLING only, never alters bone structure / face shape / freckles / identity):
+  eyes (liner/shadow/smudge), brows (groomed/natural), skin finish (matte/dewy/sweat), lip tone,
+  condition (fresh / worn / tear-tracked / bare). Default arc:
+  · Act I noir = composed power look: groomed thick brows, soft-matte skin, thin defined liner, muted natural lip.
+  · Acts III–V destrucción = eroding: smudged under-eye, tear-tracks, tired, less polish.
+  · Act VI Şile = BARE, no makeup, real freckled skin, morning.
+  · Husam = no cosmetic makeup, realistic skin/sheen only.
+
 ## 6. PROPS / PENDANT (explicit + @handle)  — @Necklage-of-Fede: royal-blue lapis in openwork gold leaf-cage, rib veins, matte, non-emissive, exact shape
+
+## 6b. COVERAGE PLAN (we were shooting single-angle — STOP. Every key beat gets coverage.)
+Same moment, same Constants Lock, ONLY camera position/size changes so angles intercut seamlessly:
+- MASTER (hero/establishing angle):
+- ALT ANGLE(S) (reverse / profile / over-shoulder / opposing side):
+- INSERTS / CUTAWAYS (pendant CU, hands, phone screen, eyes, rain-on-glass, object detail):
+Each coverage shot = its own generation from the SAME Soul/keyframe + identical §4/§5/§3 contract.
 
 ## 7. CONSTANTS LOCK ✅  (the anti-forgetting core — copy into NEGATIVE + assert positively)
 Tick every one that must hold; write each into the prompt:
