@@ -86,13 +86,15 @@ Federica & Husam are platonic — the grief is loyalty, not love.
 Keyframe note: Petrify = flesh→pale marble spreading from the forehead contact, then marble→dust; warm-gold vein
 accents in the cracks (kintsugi link); real Husam face visible on the death beat only; never neon, never clean-CG.
 
-## HARD RULE #-4 — SOUL ⊕ ELEMENTS ARE MUTUALLY EXCLUSIVE IN ONE IMAGE
-The Soul pipeline (`text2image_soul_v2` / soul_2) IGNORES `<<<element>>>` injection and INVENTS the prop
+## HARD RULE #-4 — SOUL ⊕ ELEMENTS: mutually exclusive in the SOUL IMAGE pipeline ONLY
+The Soul IMAGE pipeline (`text2image_soul_v2` / soul_2) IGNORES `<<<element>>>` injection and INVENTS the prop
 (proof: 0b241cc9 → wreath pendant; 4d2bd1b2 → giant flower brooch — both wrong, from a perfect Soul face).
-You CANNOT pass a soul_id and bind elements in the same generation.
-→ To get BOTH the Soul-faithful face AND exact props: use **Nano Banana Pro** with the SOUL'S OWN
-real training photos as face references (medias) + the elements via `<<<id>>>`. That IS "soul + elements".
-Proven by the winning taksi keyframe 652324a8. Soul-model alone = face only, props out of frame only.
+So in a **soul_2 image** gen you cannot bind elements — use **Nano Banana Pro** + the Soul's OWN real training
+photos as face refs (medias) + elements via `<<<id>>>` (winning taksi keyframe 652324a8).
+**EXCEPTION — KLING 3.0 VIDEO accepts BOTH:** pass `params.soul_id` (Federica-Combined `eab233e4…`) AND inject
+element(s) via `<<<id>>>` in the same Kling `generate_video` call — verified: the API echoes a `soul_reference`
+object and binds the element (director tested + confirmed "tanıyor"). So Kling text-to-video with NO start_image =
+soul-faithful face + exact pendant in one shot. This does NOT hold for the soul_2 IMAGE model, only Kling video.
 
 ## HARD RULE #-3 — PENDANT ON SCREEN ⇒ @Necklage-of-Fede ATTACHED, ALWAYS
 Any shot where the pendant is visible MUST attach the `@Necklage-of-Fede` element (74930eee).
