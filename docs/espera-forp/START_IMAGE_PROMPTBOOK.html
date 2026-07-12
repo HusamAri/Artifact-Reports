@@ -1,0 +1,402 @@
+<title>ESPERA — Start-Image Prompt Book</title>
+<style>
+  :root{
+    --bg:#0e0d11; --surface:#16141a; --surface-2:#1d1a22; --text:#ece7de; --muted:#a79fb0;
+    --gold:#d7ad5a; --gold-bright:#f0cd83; --marble:#c8cfd9; --oxblood:#b1585b; --sea:#7fae9e;
+    --line:rgba(215,173,90,.22); --line-soft:rgba(236,231,222,.10);
+    --chip-lock:#7fae9e; --chip-ready:#d7ad5a; --chip-pend:#a79fb0;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+    --serif:ui-serif,Georgia,"Times New Roman",serif;
+    --sans:system-ui,-apple-system,"Segoe UI",sans-serif;
+  }
+  @media (prefers-color-scheme: light){
+    :root{
+      --bg:#ece5d7; --surface:#f5efe4; --surface-2:#fbf7ee; --text:#201b15; --muted:#6c6357;
+      --gold:#9a721e; --gold-bright:#82611a; --marble:#495261; --oxblood:#8c3a33; --sea:#3f7d6a;
+      --line:rgba(154,114,30,.30); --line-soft:rgba(32,27,21,.12);
+      --chip-lock:#3f7d6a; --chip-ready:#9a721e; --chip-pend:#6c6357;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0e0d11; --surface:#16141a; --surface-2:#1d1a22; --text:#ece7de; --muted:#a79fb0;
+    --gold:#d7ad5a; --gold-bright:#f0cd83; --marble:#c8cfd9; --oxblood:#b1585b; --sea:#7fae9e;
+    --line:rgba(215,173,90,.22); --line-soft:rgba(236,231,222,.10);
+    --chip-lock:#7fae9e; --chip-ready:#d7ad5a; --chip-pend:#a79fb0;
+  }
+  :root[data-theme="light"]{
+    --bg:#ece5d7; --surface:#f5efe4; --surface-2:#fbf7ee; --text:#201b15; --muted:#6c6357;
+    --gold:#9a721e; --gold-bright:#82611a; --marble:#495261; --oxblood:#8c3a33; --sea:#3f7d6a;
+    --line:rgba(154,114,30,.30); --line-soft:rgba(32,27,21,.12);
+    --chip-lock:#3f7d6a; --chip-ready:#9a721e; --chip-pend:#6c6357;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.6;
+    -webkit-font-smoothing:antialiased;}
+  .wrap{max-width:920px;margin:0 auto;padding:clamp(28px,5vw,72px) clamp(18px,4vw,40px) 96px;}
+  header.hero{border-bottom:1px solid var(--line);padding-bottom:34px;margin-bottom:8px;}
+  .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.34em;text-transform:uppercase;
+    color:var(--gold);margin:0 0 18px;}
+  h1{font-family:var(--serif);font-weight:600;font-size:clamp(34px,6vw,58px);line-height:1.02;
+    margin:0 0 14px;letter-spacing:-.01em;text-wrap:balance;}
+  h1 .sub{display:block;font-size:clamp(15px,2.4vw,20px);font-weight:400;font-style:italic;
+    color:var(--muted);margin-top:12px;letter-spacing:0;}
+  .lede{max-width:64ch;color:var(--muted);font-size:16px;margin:20px 0 0;}
+  .lede strong{color:var(--text);font-weight:600;}
+
+  .legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1px;
+    background:var(--line-soft);border:1px solid var(--line-soft);border-radius:12px;overflow:hidden;
+    margin:34px 0 10px;}
+  .legend div{background:var(--surface);padding:14px 16px;}
+  .legend code{font-family:var(--mono);color:var(--gold);font-size:13px;}
+  .legend p{margin:5px 0 0;font-size:13px;color:var(--muted);}
+
+  .rules{background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--gold);
+    border-radius:12px;padding:20px 22px;margin:26px 0 8px;}
+  .rules h2{font-family:var(--mono);font-size:12px;letter-spacing:.28em;text-transform:uppercase;
+    color:var(--gold);margin:0 0 12px;}
+  .rules ul{margin:0;padding-left:18px;}
+  .rules li{margin:7px 0;font-size:14.5px;color:var(--text);}
+  .rules li b{color:var(--gold-bright);}
+
+  .act{margin-top:64px;}
+  .act-head{display:flex;align-items:baseline;gap:16px;border-bottom:1px solid var(--line);
+    padding-bottom:10px;margin-bottom:8px;}
+  .act-num{font-family:var(--serif);font-size:30px;color:var(--gold);font-weight:600;line-height:1;}
+  .act-title{font-family:var(--serif);font-size:23px;font-weight:600;letter-spacing:.01em;}
+  .act-meta{margin-left:auto;font-family:var(--mono);font-size:11.5px;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--muted);white-space:nowrap;}
+  .act.destr .act-num,.act.destr .act-title{color:var(--oxblood);}
+
+  .card{background:var(--surface);border:1px solid var(--line-soft);border-radius:14px;
+    padding:20px 20px 16px;margin-top:20px;}
+  .card-head{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:6px;}
+  .ki{font-family:var(--mono);font-size:13px;color:var(--gold);letter-spacing:.04em;font-weight:600;}
+  .shot-name{font-weight:600;font-size:16px;}
+  .ref{font-family:var(--mono);font-size:11.5px;color:var(--muted);letter-spacing:.08em;}
+  .chip{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;
+    padding:3px 9px;border-radius:100px;border:1px solid currentColor;white-space:nowrap;}
+  .chip.lock{color:var(--chip-lock);} .chip.ready{color:var(--chip-ready);} .chip.pend{color:var(--chip-pend);}
+  .chip.hero{color:var(--gold-bright);background:color-mix(in srgb,var(--gold) 16%,transparent);border-color:transparent;}
+  .ml{margin-left:auto;}
+
+  .promptwrap{position:relative;margin:12px 0 12px;}
+  pre.prompt{margin:0;background:var(--surface-2);border:1px solid var(--line-soft);border-radius:10px;
+    padding:16px 16px;font-family:var(--mono);font-size:13px;line-height:1.62;color:var(--text);
+    white-space:pre-wrap;overflow-x:auto;}
+  pre.prompt .at{color:var(--gold-bright);font-weight:600;}
+  .copy{position:absolute;top:9px;right:9px;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--muted);background:var(--surface);border:1px solid var(--line);
+    border-radius:7px;padding:5px 10px;cursor:pointer;transition:color .15s,border-color .15s;}
+  .copy:hover,.copy:focus-visible{color:var(--gold-bright);border-color:var(--gold);outline:none;}
+  .copy.done{color:var(--chip-lock);border-color:var(--chip-lock);}
+
+  .attach{font-size:13px;color:var(--muted);display:flex;flex-wrap:wrap;gap:6px 14px;
+    border-top:1px solid var(--line-soft);padding-top:11px;}
+  .attach b{color:var(--text);font-weight:600;font-family:var(--mono);font-size:11px;letter-spacing:.14em;
+    text-transform:uppercase;}
+  .attach code{font-family:var(--mono);font-size:12.5px;color:var(--gold);}
+
+  footer{margin-top:70px;border-top:1px solid var(--line);padding-top:22px;color:var(--muted);font-size:13px;}
+  footer code{font-family:var(--mono);color:var(--gold);}
+  a{color:var(--gold);}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+  <header class="hero">
+    <p class="eyebrow">ESPERA · Chapter VI · Federica</p>
+    <h1>Start-Image Prompt Book<span class="sub">Every keyframe (start-image) prompt for the film — one card per setup.</span></h1>
+    <p class="lede">Federica is never described. She is <strong>@fedecon</strong> — the trained Soul carries her
+      exact bone structure, real face and attitudes. Adding hair / brow / eye detail only spawned wrong variants,
+      so it is gone. Author the still, let the Soul be her.</p>
+
+    <div class="rules">
+      <h2>Working rules</h2>
+      <ul>
+        <li><b>@fedecon</b> = the identity. Never re-describe her face — the clause <i>“stay true to her exact bone structure, real face and natural attitudes”</i> is enough.</li>
+        <li><b>Keyframe-first.</b> These stills are the truth; animate the approved one as a Kling <b>start_image</b>. Soul-only text-to-video drifts (proven) — bake identity + pendant into the still.</li>
+        <li><b>Pendant</b> whenever visible → attach <b>@Necklage-of-Fede</b>; describe it as the lapis leaf-cage so it never renders as a round medallion.</li>
+        <li><b>Palette:</b> <b>gold</b> = living power · <b>black/obsidian</b> = destrucción (Act III) · <b>marble</b> = Marmo.</li>
+        <li><b>Camera</b> is baked here as framing; motion (locked / slow push-in / the one SK21 pan) is added at the video step.</li>
+        <li>Model for keyframes: <b>Nano Banana Pro</b> with @fedecon references + the elements. 21:9, real skin, no retouch, no CGI look.</li>
+      </ul>
+    </div>
+
+    <div class="legend">
+      <div><code>@fedecon</code><p>Federica-Combined Soul · <code>eab233e4</code></p></div>
+      <div><code>@husam</code><p>Husam Soul · <code>76fab95a</code> · OLD / NEW by posture</p></div>
+      <div><code>@Necklage-of-Fede</code><p>Foglia d'Oro pendant · <code>74930eee</code></p></div>
+      <div><code>@Mirror-self</code><p>Marmo, marble double · <code>98969c27</code></p></div>
+      <div><code>@Consigliera-palto</code><p>fur-collar coat · <code>d5db280f</code></p></div>
+    </div>
+  </header>
+
+  <!-- ACT I -->
+  <section class="act">
+    <div class="act-head"><span class="act-num">I</span><span class="act-title">Arrival</span>
+      <span class="act-meta">Taxi · rainy İstanbul night · silent</span></div>
+
+    <article class="card">
+      <div class="card-head"><span class="ki">KI-01</span><span class="shot-name">Taxi back seat</span>
+        <span class="ref">S02 · SK1</span><span class="chip lock ml">Locked · a9a93299</span></div>
+      <div class="promptwrap"><pre class="prompt">Photorealistic cinematic film still, 21:9 anamorphic, 35mm Kodak Vision3 500T +1, fine grain, real skin, no retouch, no CGI look. Night İstanbul taxi back seat; rain and broken neon bokeh on the window, no legible text. <span class="at">@fedecon</span> — stay true to her exact bone structure, real face and natural attitudes; let the Soul define her, do not restyle. Half-profile, a fur-collar dark coat over a black top, wearing <span class="at">@Necklage-of-Fede</span> (royal-blue lapis in an openwork gold leaf-cage, faint blue glow). Alone in the cabin, dome light OFF, chest bare of any choker. Warm noir street light. She does not look at the camera.</pre><button class="copy">Copy</button></div>
+      <div class="attach"><b>Attach</b> <code>@fedecon</code> <code>@Necklage-of-Fede</code> <span class="ml">21:9 · Nano Banana Pro</span></div>
+    </article>
+
+    <article class="card">
+      <div class="card-head"><span class="ki">KI-02</span><span class="shot-name">Phone screen — “F”</span>
+        <span class="ref">S04 · SK3 · insert</span><span class="chip pend ml">Pending</span></div>
+      <div class="promptwrap"><pre class="prompt">Photorealistic cinematic film still, 21:9 anamorphic, 35mm Kodak 500T +1, fine grain. Insert close-up: a phone held in a lap in a dark taxi, the screen showing a single letter “F” and nothing else, no other text or UI. Shallow focus, cool rain light with warm neon spill. No face.</pre><button class="copy">Copy</button></div>
+      <div class="attach"><b>Attach</b> <span style="color:var(--muted)">none (object insert)</span> <span class="ml">21:9</span></div>
+    </article>
+
+    <article class="card">
+      <div class="card-head"><span class="ki">KI-03</span><span class="shot-name">Curb — the signature walk</span>
+        <span class="ref">S06 · SK4</span><span class="chip pend ml">Pending</span></div>
+      <div class="promptwrap"><pre class="prompt">Photorealistic cinematic film still, 21:9 anamorphic, 35mm Kodak 500T +1, fine grain, real skin, no CGI look. From behind: <span class="at">@fedecon</span> — stay true to her exact bone structure, real face and natural attitudes — walking with her signature posture (chin up, shoulders back, sure stride) across wet cobblestones toward a heavy wooden door, wearing <span class="at">@Consigliera-palto</span>. Face hidden, rain easing, warm lamplight. Locked, following from behind.</pre><button class="copy">Copy</button></div>
+      <div class="attach"><b>Attach</b> <code>@fedecon</code> <code>@Consigliera-palto</code> <span class="ml">21:9 · Nano Banana Pro</span></div>
+    </article>
+  </section>
+
+  <!-- ACT II -->
+  <section class="act">
+    <div class="act-head"><span class="act-num">II</span><span class="act-title">La Tavola</span>
+      <span class="act-meta">Italian salon · candlelight · silent + 2 lines</span></div>
+
+    <article class="card">
+      <div class="card-head"><span class="ki">KI-04</span><span class="shot-name">Corridor</span>
+        <span class="ref">S07 · SK5</span><span class="chip ready ml">Keyframe · 937f0e90</span></div>
+      <div class="promptwrap"><pre class="prompt">Photorealistic cinematic film still, 21:9 anamorphic, 35mm Kodak 500T +1, fine grain, real skin. From behind: <span class="at">@fedecon</span> — stay true to her exact bone structure, real face and natural attitudes — moving down a dark Italian corridor (faded classical portraits, wood paneling, deep-red carpet), lowering a fur-collar coat off one shoulder. Warm low light. Face not shown.</pre><button class="copy">Copy</button></div>
+      <div class="attach"><b>Attach</b> <code>@fedecon</code> <code>@Consigliera-palto</code> <span class="ml">21:9 · Nano Banana Pro</span></div>
+    </article>
+
+    <article class="card">
+      <div class="card-head"><span class="ki">KI-05</span><span class="shot-name">Salon reveal</span>
+        <span class="ref">S08 · SK5</span><span class="chip pend ml">Pending</span></div>
+      <div class="promptwrap"><pre class="prompt">Photorealistic cinematic film still, 21:9 anamorphic, 35mm Kodak 500T +1, fine grain, real skin, no retouch. <span class="at">@fedecon</span> — stay true to her exact bone structure, real face and natural attitudes — seated at the head of a black marble table in a candlelit Italian salon; a banker's lamp pools amber, a carved lapis globe on a marble stand at left, a tall Venetian mirror on the rear wall. Wearing <span class="at">@Necklage-of-Fede</span> (lapis leaf-cage, faint blue). She does not look at the camera.</pre><button class="copy">Copy</button></div>
+      <div class="attach"><b>Attach</b> <code>@fedecon</code> <code>@Necklage-of-Fede</code> <span class="ml">21:9 · Nano Banana Pro</span></div>
+    </article>
+
+    <article class="card">
+      <div class="card-head"><span class="ki">KI-06</span><span class="shot-name">Consigliera pose — ember</span>
+        <span class="ref">S09 · SK6</span><span class="chip pend ml">Pending</span></div>
+      <div class="promptwrap"><pre class="prompt">Photorealistic cinematic film still, 21:9 anamorphic, 35mm Kodak 500T +1, fine grain, real skin. <span class="at">@fedecon</span> — stay true to her exact bone structure, real face and natural attitudes — hands clasped under her chin, eyes half-closed, in the candlelit black-marble salon. <span class="at">@Necklage-of-Fede</span> warming from within: a warm-gold ember glow spilling onto her collarbone and jaw, skin translucent. Intimate, still. She does not look at the camera.</pre><button class="copy">Copy</button></div>
+      <div class="attach"><b>Attach</b> <code>@fedecon</code> <code>@Necklage-of-Fede</code> <span class="ml">21:9 · Nano Banana Pro</span></div>
+    </article>
+
+    <article class="card">
+      <div class="card-head"><span class="ki">KI-07</span><span class="shot-name">Old Husam at the curtain</span>
+        <span class="ref">S10 · SK7</span><span class="chip ready ml">Keyframe · 9b7d2f14</span></div>
+      <div class="promptwrap"><pre class="prompt">Photorealistic cinematic film still, 21:9 anamorphic, 35mm Kodak 500T +1, fine grain, real skin. <span class="at">@husam</span> in his OLD posture — tired, shoulders down, eyes low; stay true to his real face but keep it soft and backlit, half-unrecognizable — standing as a silhouette at a velvet curtain in the candlelit salon. Warm rim light.</pre><button class="copy">Copy</button></div>
+      <div class="attach"><b>Attach</b> <code>@husam</code> <span class="ml">21:9 · Nano Banana Pro</span></div>
+    </article>
+
+    <article class="card">
+      <div class="card-head"><span class="ki">KI-08</span><span class="shot-name">Federica — the one lens-look</span>
+        <span class="ref">S11 · SK8</span><span class="chip pend ml">Pending</span></div>
+      <div class="promptwrap"><pre class="prompt">Photorealistic cinematic film still, 21:9 anamorphic, 35mm Kodak 500T +1, fine grain, real skin, real pores, no retouch. Extreme close-up: <span class="at">@fedecon</span> — stay true to her exact bone structure, real face and natural attitudes — lifting her head and looking straight into the lens (the single deliberate eye-contact of the whole film). Candlelight, face filling the frame.</pre><button class="copy">Copy</button></div>
+      <div class="attach"><b>Attach</b> <code>@fedecon</code> <span class="ml">21:9 · Nano Banana Pro · (only shot she faces camera)</span></div>
+    </article>
+
+    <article class="card">
+      <div class="card-head"><span class="ki">KI-09</span><span class="shot-name">Two-shot — silence</span>
+        <span class="ref">S12 · SK9</span><span class="chip pend ml">Pending</span></div>
+      <div class="promptwrap"><pre class="prompt">Photorealistic cinematic film still, 21:9 anamorphic, 35mm Kodak 500T +1, fine grain, real skin. <span class="at">@fedecon</span> (stay true to her exact bone structure, real face and attitudes) at the black-marble table and <span class="at">@husam</span> (OLD posture, backlit, soft) at the curtain, holding a still gaze across the salon — platonic, tense, not a couple. Cigar smoke rising, pendant ember. Neither looks at the camera.</pre><button class="copy">Copy</button></div>
+      <div class="attach"><b>Attach</b> <code>@fedecon</code> <code>@husam</code> <code>@Necklage-of-Fede</code> <span class="ml">21:9 · Nano Banana Pro</span></div>
+    </article>
+  </section>
+
+  <!-- ACT III -->
+  <section class="act destr">
+    <div class="act-head"><span class="act-num">III</span><span class="act-title">Verdict Arrives</span>
+      <span class="act-meta">Destrucción · Cinestill 800T · BLACK palette</span></div>
+
+    <article class="card">
+      <div class="card-head"><span class="ki">KI-10</span><span class="shot-name">Verdict — corruption</span>
+        <span class="ref">S13 · SK10</span><span class="chip pend ml">Pending</span></div>
+      <div class="promptwrap"><pre class="prompt">Photorealistic cinematic film still, 21:9 anamorphic, Cinestill 800T, heavy grain, real skin, no CGI look. <span class="at">@fedecon</span> — stay true to her exact bone structure, real face and natural attitudes — a thin, slightly bent gold laurel crown, a dark navy sweater off the shoulders, right fist on black marble. The pendant CORRUPTED: royal-blue turned to obsidian, the gold leaf-cage blackening, fine BLACK cracks branching under the skin of her neck. Hard, cold mood. She does not look at the camera.</pre><button class="copy">Copy</button></div>
+      <div class="attach"><b>Attach</b> <code>@fedecon</code> <code>@Necklage-of-Fede</code> <span class="ml">21:9 · palette: BLACK/obsidian</span></div>
+    </article>
+
+    <article class="card">
+      <div class="card-head"><span class="ki">KI-11</span><span class="shot-name">Hands on marble</span>
+        <span class="ref">S14 · SK11</span><span class="chip pend ml">Pending</span></div>
+      <div class="promptwrap"><pre class="prompt">Photorealistic cinematic film still, 21:9 anamorphic, Cinestill 800T, heavy grain, real skin. <span class="at">@fedecon</span> — stay true to her exact bone structure, real face and natural attitudes — both hands flat on the black marble, breathing, gaze drifting toward the rear Venetian mirror. Corrupted obsidian pendant, black hairline veins. She does not look at the camera.</pre><button class="copy">Copy</button></div>
+      <div class="attach"><b>Attach</b> <code>@fedecon</code> <code>@Necklage-of-Fede</code> <span class="ml">21:9 · BLACK palette</span></div>
+    </article>
+
+    <article class="card">
+      <div class="card-head"><span class="ki">KI-12</span><span class="shot-name">Whisper — close-up</span>
+        <span class="ref">S15 · SK12</span><span class="chip pend ml">Pending</span></div>
+      <div class="promptwrap"><pre class="prompt">Photorealistic cinematic film still, 21:9 anamorphic, Cinestill 800T, heavy grain, real skin, real pores. Close-up: <span class="at">@fedecon</span> — stay true to her exact bone structure, real face and natural attitudes — lips parting to whisper, jaw tight. Faint corrupted obsidian pendant below. Cold key light. She does not look at the camera.</pre><button class="copy">Copy</button></div>
+      <div class="attach"><b>Attach</b> <code>@fedecon</code> <span class="ml">21:9 · BLACK palette</span></div>
+    </article>
+  </section>
+
+  <!-- ACT IV -->
+  <section class="act">
+    <div class="act-head"><span class="act-num">IV</span><span class="act-title">The Mirror</span>
+      <span class="act-meta">Marmo · marble double · Sprechgesang</span></div>
+
+    <article class="card">
+      <div class="card-head"><span class="ki">KI-13</span><span class="shot-name">Mirror — meets Marmo</span>
+        <span class="ref">S16 · SK13</span><span class="chip ready ml">Keyframe · 53f2432e</span></div>
+      <div class="promptwrap"><pre class="prompt">Photorealistic cinematic film still, 21:9 anamorphic, 35mm, fine grain, real skin. <span class="at">@fedecon</span> — stay true to her exact bone structure, real face and natural attitudes — standing before a tall Venetian mirror; the reflection is not her but <span class="at">@Mirror-self</span>: a pale white-marble double with her exact face, a marble torque collar, a dark oxblood velvet imperial mantle, a thorny asymmetric laurel, a corrupted pendant. Same level, facing each other. Neither looks at the camera.</pre><button class="copy">Copy</button></div>
+      <div class="attach"><b>Attach</b> <code>@fedecon</code> <code>@Mirror-self</code> <span class="ml">21:9 · Nano Banana Pro</span></div>
+    </article>
+
+    <article class="card">
+      <div class="card-head"><span class="ki">KI-14</span><span class="shot-name">Old Husam in the glass</span>
+        <span class="ref">S17 · SK14</span><span class="chip pend ml">Pending</span></div>
+      <div class="promptwrap"><pre class="prompt">Photorealistic cinematic film still, 21:9 anamorphic, 35mm, fine grain, real skin. Over <span class="at">@fedecon</span>'s shoulder into the mirror world: <span class="at">@husam</span> (OLD posture — tired, eyes down, soft backlit face) standing behind <span class="at">@Mirror-self</span>, the white-marble double. Cool mirror-world light.</pre><button class="copy">Copy</button></div>
+      <div class="attach"><b>Attach</b> <code>@fedecon</code> <code>@husam</code> <code>@Mirror-self</code> <span class="ml">21:9 · Nano Banana Pro</span></div>
+    </article>
+
+    <article class="card">
+      <div class="card-head"><span class="ki">KI-15</span><span class="shot-name">Marmo steps out</span>
+        <span class="ref">S18 · SK15</span><span class="chip pend ml">Pending</span></div>
+      <div class="promptwrap"><pre class="prompt">Photorealistic cinematic film still, 21:9 anamorphic, 35mm, fine grain. <span class="at">@Mirror-self</span> — the pale white-marble double of Federica — stepping forward out of the glass into the candlelit salon, offering a marble palm-up hand toward <span class="at">@fedecon</span> (stay true to her exact bone structure, real face and attitudes). Warm candlelight meeting cold marble.</pre><button class="copy">Copy</button></div>
+      <div class="attach"><b>Attach</b> <code>@fedecon</code> <code>@Mirror-self</code> <span class="ml">21:9 · Nano Banana Pro</span></div>
+    </article>
+
+    <article class="card">
+      <div class="card-head"><span class="ki">KI-16</span><span class="shot-name">The Duel — gold vs marble</span>
+        <span class="ref">S19 · SK15–16 · P3</span><span class="chip ready ml">Keyframe · fed1697d</span></div>
+      <div class="promptwrap"><pre class="prompt">Photorealistic cinematic film still, 21:9 anamorphic, 35mm, heavy grain, volumetric haze, real physics, never neon, never CG. <span class="at">@fedecon</span> — stay true to her exact bone structure, real face and natural attitudes — with molten-GOLD veins glowing beneath her skin, facing <span class="at">@Mirror-self</span>, the cold white-marble double with warm-gold kintsugi in her cracks. A slow, epic stand-off; warm gold vs cold stone, both lit. Neither looks at the camera.</pre><button class="copy">Copy</button></div>
+      <div class="attach"><b>Attach</b> <code>@fedecon</code> <code>@Mirror-self</code> <span class="ml">21:9 · palette: GOLD vs MARBLE</span></div>
+    </article>
+
+    <article class="card">
+      <div class="card-head"><span class="ki">KI-17</span><span class="shot-name">Tango — close</span>
+        <span class="ref">S20 · SK16</span><span class="chip pend ml">Pending</span></div>
+      <div class="promptwrap"><pre class="prompt">Photorealistic cinematic film still, 21:9 anamorphic, 35mm, fine grain, real skin. <span class="at">@fedecon</span> (stay true to her exact bone structure, real face and attitudes) and <span class="at">@Mirror-self</span> close together mid-turn of a slow tango; Fed's breath fogs, the marble double's does not. Candlelit salon, gold vs stone. Neither looks at the camera.</pre><button class="copy">Copy</button></div>
+      <div class="attach"><b>Attach</b> <code>@fedecon</code> <code>@Mirror-self</code> <span class="ml">21:9 · Nano Banana Pro</span></div>
+    </article>
+  </section>
+
+  <!-- ACT V -->
+  <section class="act">
+    <div class="act-head"><span class="act-num">V</span><span class="act-title">Double Death</span>
+      <span class="act-meta">Petrify · aria peak · scream → black</span></div>
+
+    <article class="card">
+      <div class="card-head"><span class="ki">KI-18</span><span class="shot-name">Permission</span>
+        <span class="ref">S21 · SK17</span><span class="chip pend ml">Pending</span></div>
+      <div class="promptwrap"><pre class="prompt">Photorealistic cinematic film still, 21:9 anamorphic, 35mm, fine grain, real skin. <span class="at">@fedecon</span> (stay true to her exact bone structure, real face and attitudes) and <span class="at">@Mirror-self</span> side by side before the mirror, facing the same way, a grave stillness. Cool + warm mix. Neither looks at the camera.</pre><button class="copy">Copy</button></div>
+      <div class="attach"><b>Attach</b> <code>@fedecon</code> <code>@Mirror-self</code> <span class="ml">21:9 · Nano Banana Pro</span></div>
+    </article>
+
+    <article class="card">
+      <div class="card-head"><span class="ki">KI-19</span><span class="shot-name">Marmo crosses over</span>
+        <span class="ref">S22 · SK18</span><span class="chip pend ml">Pending</span></div>
+      <div class="promptwrap"><pre class="prompt">Photorealistic cinematic film still, 21:9 anamorphic, 35mm, fine grain. Inside the mirror world: <span class="at">@Mirror-self</span>, the marble double, walking toward <span class="at">@husam</span> (OLD posture, tired, soft face) with the signature stride; he turns, no resistance. Cool desaturated light.</pre><button class="copy">Copy</button></div>
+      <div class="attach"><b>Attach</b> <code>@husam</code> <code>@Mirror-self</code> <span class="ml">21:9 · Nano Banana Pro</span></div>
+    </article>
+
+    <article class="card">
+      <div class="card-head"><span class="ki">KI-20</span><span class="shot-name">Petrify — the kill gesture</span>
+        <span class="ref">S23 · SK19 · P4</span><span class="chip hero ml">Hero VFX · 347ef08a</span></div>
+      <div class="promptwrap"><pre class="prompt">Photorealistic cinematic film still, 21:9 anamorphic, 35mm, heavy grain, real physics, never neon, never CG. <span class="at">@Mirror-self</span>'s marble hand on <span class="at">@husam</span>'s FOREHEAD (OLD posture); his real face VISIBLE and at ease, releasing; his flesh turning to pale marble from the point of contact, hairline cracks tracing warm GOLD kintsugi, marble dust in the air. Mirror world, cold stone lit warm gold. Hero VFX.</pre><button class="copy">Copy</button></div>
+      <div class="attach"><b>Attach</b> <code>@husam</code> <code>@Mirror-self</code> <span class="ml">21:9 · face-hide lifted for this beat</span></div>
+    </article>
+
+    <article class="card">
+      <div class="card-head"><span class="ki">KI-21</span><span class="shot-name">Federica — the frozen drop</span>
+        <span class="ref">S24 · SK19</span><span class="chip pend ml">Pending</span></div>
+      <div class="promptwrap"><pre class="prompt">Photorealistic cinematic film still, 21:9 anamorphic, 35mm, heavy grain, real skin, real tears. <span class="at">@fedecon</span> — stay true to her exact bone structure, real face and natural attitudes — kneeling this side of the glass, broken, a single gold drop frozen on her cheek (not flowing, stopped). Cool key with a warm gold rim. She does not look at the camera.</pre><button class="copy">Copy</button></div>
+      <div class="attach"><b>Attach</b> <code>@fedecon</code> <span class="ml">21:9 · Nano Banana Pro</span></div>
+    </article>
+  </section>
+
+  <!-- ACT VI -->
+  <section class="act">
+    <div class="act-head"><span class="act-num">VI</span><span class="act-title">Şile</span>
+      <span class="act-meta">Black Sea · overcast · “Un Segundo Después”</span></div>
+
+    <article class="card">
+      <div class="card-head"><span class="ki">KI-22</span><span class="shot-name">Şile — two backs</span>
+        <span class="ref">S25 · SK22</span><span class="chip ready ml">Keyframe · 010264e7</span></div>
+      <div class="promptwrap"><pre class="prompt">Photorealistic cinematic film still, 21:9 anamorphic, 35mm, fine grain, real skin, fragile overcast daylight. From behind: <span class="at">@fedecon</span> — stay true to her exact bone structure, real face and attitudes — dark-blond hair down, a black triangle bikini with snakeskin straps, a large geisha back tattoo, sitting on wet sand at an overcast Black-Sea beach; a small camp table with two mojitos. <span class="at">@husam</span> in his NEW posture — upright, open shoulders, face never shown — entering from behind at her side. Two backs, the grey-green sea. Platonic.</pre><button class="copy">Copy</button></div>
+      <div class="attach"><b>Attach</b> <code>@fedecon</code> <code>@husam</code> <span class="ml">21:9 · Nano Banana Pro</span></div>
+    </article>
+
+    <article class="card">
+      <div class="card-head"><span class="ki">KI-23</span><span class="shot-name">Mojito — hands touch</span>
+        <span class="ref">S26 · SK23</span><span class="chip pend ml">Pending</span></div>
+      <div class="promptwrap"><pre class="prompt">Photorealistic cinematic film still, 21:9 anamorphic, 35mm, fine grain, overcast daylight. <span class="at">@fedecon</span> (stay true to her exact bone structure, real face and attitudes) and <span class="at">@husam</span> (NEW posture, face never shown) seated on the sand, backs to camera, her hand passing a mojito to his — hands lightly touching, two old friends, platonic. Grey-green sea beyond.</pre><button class="copy">Copy</button></div>
+      <div class="attach"><b>Attach</b> <code>@fedecon</code> <code>@husam</code> <span class="ml">21:9 · Nano Banana Pro</span></div>
+    </article>
+
+    <article class="card">
+      <div class="card-head"><span class="ki">KI-24</span><span class="shot-name">Confession</span>
+        <span class="ref">S28 · SK25</span><span class="chip pend ml">Pending</span></div>
+      <div class="promptwrap"><pre class="prompt">Photorealistic cinematic film still, 21:9 anamorphic, 35mm, fine grain, real skin, fragile daylight. <span class="at">@fedecon</span> — stay true to her exact bone structure, real face and attitudes — half-profile on the sand (face only partly seen), <span class="at">@husam</span> (NEW posture, face never shown) beside her, arms wrapped around herself, looking to the grey-green sea. Quiet, warm, worn.</pre><button class="copy">Copy</button></div>
+      <div class="attach"><b>Attach</b> <code>@fedecon</code> <code>@husam</code> <span class="ml">21:9 · Nano Banana Pro</span></div>
+    </article>
+
+    <article class="card">
+      <div class="card-head"><span class="ki">KI-25</span><span class="shot-name">Wide — the clink</span>
+        <span class="ref">S29 · SK26</span><span class="chip pend ml">Pending</span></div>
+      <div class="promptwrap"><pre class="prompt">Photorealistic cinematic film still, 21:9 anamorphic, 35mm, fine grain, overcast. Extreme-long shot: two small figures on the sand with a little camp table and the breaking Black Sea, raising and clinking plastic cups, laughing. Wind, white foam, fragile northern light. Faces not readable.</pre><button class="copy">Copy</button></div>
+      <div class="attach"><b>Attach</b> <code>@fedecon</code> <code>@husam</code> <span class="ml">21:9 · figures small</span></div>
+    </article>
+  </section>
+
+  <!-- AFTER -->
+  <section class="act">
+    <div class="act-head"><span class="act-num">✧</span><span class="act-title">After Credits</span>
+      <span class="act-meta">the surprise · total silence</span></div>
+
+    <article class="card">
+      <div class="card-head"><span class="ki">KI-26</span><span class="shot-name">Empty mirror — one gold drop</span>
+        <span class="ref">S30 · SK27</span><span class="chip pend ml">Redo (was 8f4fd9e2)</span></div>
+      <div class="promptwrap"><pre class="prompt">Photorealistic cinematic film still, 21:9 anamorphic, 35mm, fine grain, near-total black. An empty tall Venetian mirror in darkness — no people, just glass. A single hairline crack across it; from the crack one gold drop seeps and descends slowly but does NOT flow — it stops, held. Silent, still, the film's last image.</pre><button class="copy">Copy</button></div>
+      <div class="attach"><b>Attach</b> <span style="color:var(--muted)">none (no people)</span> <span class="ml">21:9 · rhymes with KI-21</span></div>
+    </article>
+  </section>
+
+  <!-- POWER -->
+  <section class="act">
+    <div class="act-head"><span class="act-num">⚡</span><span class="act-title">Power Layer</span>
+      <span class="act-meta">GOLD = living · effect must light the room</span></div>
+
+    <article class="card">
+      <div class="card-head"><span class="ki">KI-27</span><span class="shot-name">Awakening — Gilded Veins</span>
+        <span class="ref">P1</span><span class="chip ready ml">Keyframe · fb7bd695</span></div>
+      <div class="promptwrap"><pre class="prompt">Photorealistic cinematic film still, 21:9 anamorphic, 35mm, heavy grain, real physics, never neon, never CG. <span class="at">@fedecon</span> — stay true to her exact bone structure, real face and natural attitudes — in the candlelit salon, molten-GOLD veins blooming beneath the skin of her neck and hand, <span class="at">@Necklage-of-Fede</span> blazing warm gold at its core, warm reflected light spilling onto her jaw. She does not look at the camera.</pre><button class="copy">Copy</button></div>
+      <div class="attach"><b>Attach</b> <code>@fedecon</code> <code>@Necklage-of-Fede</code> <span class="ml">21:9 · GOLD palette</span></div>
+    </article>
+
+    <article class="card">
+      <div class="card-head"><span class="ki">KI-28</span><span class="shot-name">Gold Fall — leaf storm</span>
+        <span class="ref">P2</span><span class="chip ready ml">Keyframe · 57082eae</span></div>
+      <div class="promptwrap"><pre class="prompt">Photorealistic cinematic film still, 21:9 anamorphic, 35mm, heavy grain, real physics, never neon, never CG. <span class="at">@fedecon</span> — stay true to her exact bone structure, real face and natural attitudes — opening her hand as a storm of razor-edged gold leaves erupts and sweeps outward, catching light like blades; gold veins up her forearm, <span class="at">@Necklage-of-Fede</span> blazing, warm gold light rushing across the dark salon in volumetric shafts. She does not look at the camera.</pre><button class="copy">Copy</button></div>
+      <div class="attach"><b>Attach</b> <code>@fedecon</code> <code>@Necklage-of-Fede</code> <span class="ml">21:9 · GOLD palette</span></div>
+    </article>
+
+    <article class="card">
+      <div class="card-head"><span class="ki">KI-29</span><span class="shot-name">Marmo Shatter — kintsugi burst</span>
+        <span class="ref">P4</span><span class="chip ready ml">Keyframe · 347ef08a</span></div>
+      <div class="promptwrap"><pre class="prompt">Photorealistic cinematic film still, 21:9 anamorphic, 35mm, heavy grain, real physics, never neon, never CG. <span class="at">@Mirror-self</span> — the white-marble double of Federica — her marble body cracking along warm-GOLD kintsugi veins and bursting into a storm of marble shards and gold dust, mid-reform. Cold stone lit by warm gold, volumetric haze. No eye contact.</pre><button class="copy">Copy</button></div>
+      <div class="attach"><b>Attach</b> <code>@Mirror-self</code> <span class="ml">21:9 · MARBLE + gold</span></div>
+    </article>
+  </section>
+
+  <footer>
+    <p>ESPERA · Chapter VI · Federica — start-image prompt book. Identity via <code>@fedecon</code> (Soul), props via elements,
+      pendant always <code>@Necklage-of-Fede</code>. Keyframe-first: approve the still, then animate as a Kling <code>start_image</code>.
+      Full breakdown in <code>SHOT_LIST.md</code> / <code>PRODUCTION_BOARD.md</code> / <code>SCREENPLAY_v1_LOCKED.md</code>.</p>
+  </footer>
+</div>
+
+<script>
+  document.addEventListener('click',function(e){
+    var b=e.target.closest('.copy'); if(!b) return;
+    var pre=b.parentElement.querySelector('pre.prompt'); if(!pre) return;
+    var t=pre.innerText;
+    navigator.clipboard.writeText(t).then(function(){
+      var o=b.textContent; b.textContent='Copied'; b.classList.add('done');
+      setTimeout(function(){b.textContent=o; b.classList.remove('done');},1400);
+    });
+  });
+</script>
