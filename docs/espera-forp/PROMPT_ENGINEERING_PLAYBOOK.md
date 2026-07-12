@@ -91,10 +91,12 @@ The Soul IMAGE pipeline (`text2image_soul_v2` / soul_2) IGNORES `<<<element>>>` 
 (proof: 0b241cc9 → wreath pendant; 4d2bd1b2 → giant flower brooch — both wrong, from a perfect Soul face).
 So in a **soul_2 image** gen you cannot bind elements — use **Nano Banana Pro** + the Soul's OWN real training
 photos as face refs (medias) + elements via `<<<id>>>` (winning taksi keyframe 652324a8).
-**EXCEPTION — KLING 3.0 VIDEO accepts BOTH:** pass `params.soul_id` (Federica-Combined `eab233e4…`) AND inject
-element(s) via `<<<id>>>` in the same Kling `generate_video` call — verified: the API echoes a `soul_reference`
-object and binds the element (director tested + confirmed "tanıyor"). So Kling text-to-video with NO start_image =
-soul-faithful face + exact pendant in one shot. This does NOT hold for the soul_2 IMAGE model, only Kling video.
+**KLING 3.0 VIDEO — soul_id is accepted at SUBMIT but NOT reliably applied in the RENDER.** Test 91a62b06 passed
+`params.soul_id` (eab233e4) + `<<<pendant>>>`; the submit echoed a `soul_reference`, BUT the completed job dropped
+soul_id and produced a GENERIC face (not Federica) + a wrong round-medallion pendant. **Conclusion: do NOT trust
+Kling text-to-video for identity or precise props.** The reliable route stays **keyframe-first**: bake face+pendant
+into an approved Nano keyframe, then animate it as Kling `start_image` (Shots 1 & 2 = perfect face+pendant proof).
+Elements can still HELP as reinforcement alongside a start_image, but never as the sole identity/prop source.
 
 ## HARD RULE #-3 — PENDANT ON SCREEN ⇒ @Necklage-of-Fede ATTACHED, ALWAYS
 Any shot where the pendant is visible MUST attach the `@Necklage-of-Fede` element (74930eee).
