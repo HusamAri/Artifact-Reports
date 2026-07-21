@@ -145,6 +145,11 @@ environments are NEVER attached as elements on a close-up.
   neat side-parted hair. Never describe his facial features beyond this styling layer — the Soul/refs define the face.
 - Uploaded real-photo media_ids (reusable as Nano refs): 85abddbe (tram hero) · db4c8868 (bright frontal) ·
   c029f8ba (laugh) · beba6942 (calm 3/4).
+- **Element `@husamcon` = `2f4e960c-c030-4ed3-827d-1fdd71d8a74a`** — Husam identity for ELEMENT-based models
+  (Nano/Kling/Cinema Studio/Seedance), built from the 6 approved refs (4 real + 2 slim Nano). VERIFIED working:
+  Şile v2 (CS3.0, job 7cedf89f) rendered him young/slim from behind. Use this whenever Husam is in an element-model
+  shot; the Husam-Best Soul (20423e59) is for soul_2/Cinema only and is still queued on Higgsfield.
+- Federica counterpart element = `@fedecon-1` (1409d61a). Both together = the two-hander recipe (Şile, etc.).
 
 ## ELEMENT ID REGISTRY (use exact IDs; never guess)
 - **`@fedecon-1` = `1409d61a-ce82-4e87-a745-26259bb909a8` — FEDERICA MASTER IDENTITY ANCHOR (2026-07-21, THE
