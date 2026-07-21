@@ -79,6 +79,13 @@ Kling 3.0 facts confirmed in-tool: full model = mode std/pro/4k + sound on/off +
 - SK27 SURPRISE — empty cracked mirror + one frozen gold drop — REDO (see above)
 Have already: fed1697d (Duel gold vs marble SK16-19), 53f2432e (Fed+Marmo SK15), 347ef08a (Marmo Shatter kintsugi).
 
+## FEDERICA IDENTITY CONSOLIDATION (2026-07-21)
+Director curated 8 generated frames whose face is truly Federica (criterion: face likeness only) and named the taxi
+frame **4d2bd1b2 "tıpatıp o"** (exact her) = hero reference. From the Soul (eab233e4) I generated 4 clean identity
+anchors — frontal daylight d3801c85, 3/4 tungsten 7b9c5320, true profile 52bb32f6, low-key noir 2a39d5b7 — all
+director-approved ("hepsi başarılı"). The 5 frames became character element **@fedecon-1 = 1409d61a** (master
+identity anchor). New prompt law: never describe her face verbally; element + "stay true to bone structure" only.
+
 ## OPEN FIXES CARRIED FORWARD
 - Face master: **Federica-Combined Soul eab233e4** (training) — re-run cards on it once verified.
 - Hair: always "fine THIN, not voluminous."

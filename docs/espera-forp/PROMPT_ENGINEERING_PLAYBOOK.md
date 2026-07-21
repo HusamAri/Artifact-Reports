@@ -135,6 +135,13 @@ Never animate straight from text — the face must be proven in a still first.
 environments are NEVER attached as elements on a close-up.
 
 ## ELEMENT ID REGISTRY (use exact IDs; never guess)
+- **`@fedecon-1` = `1409d61a-ce82-4e87-a745-26259bb909a8` — FEDERICA MASTER IDENTITY ANCHOR (2026-07-21, THE
+  canonical face element for all element-based models: Nano Banana Pro/2, Kling 3.0, Cinema Studio, Seedream).**
+  5 director-approved frames: taxi hero "tıpatıp o" 4d2bd1b2 + frontal daylight d3801c85 + 3/4 tungsten 7b9c5320 +
+  true profile 52bb32f6 + low-key noir 2a39d5b7 (all from Federica-Combined Soul eab233e4). Prompt rule: reference
+  her ONLY via this element + "stay true to her exact bone structure, real face and natural attitudes" — NEVER
+  describe hair/brows/eyes/freckles in words (verbal description spawns wrong variants; the anchor defines her).
+  (NOTE: legacy single-photo `fedecon` 5c561cbe exists — name collision is why the new one is `fedecon-1`.)
 - `@Necklage-of-Fede`  = `74930eee-cbb5-4c62-9a5b-f11526b736b9`  (prop, RELIABLE — always attach when pendant is on screen)
 - `@Consigliera-palto` = `d5db280f-63fb-4166-8473-e680e251d68d`  (coat)
 - `@Federica-Clean`    = `14c961c3-0b0f-4012-9d33-0a52afbaf177`  (STRONG character identity, real photos, locked dark-brown hair — reference her face inline by this handle; the ONE correct Federica element)
