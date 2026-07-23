@@ -134,7 +134,31 @@ Never animate straight from text — the face must be proven in a still first.
 **Rule of thumb:** face + set come from a *keyframe*; hero props come from *elements*;
 environments are NEVER attached as elements on a close-up.
 
+## HUSAM IDENTITY (2026-07-21 consolidation — fixes the "looks too old" drift)
+- **Soul: `Husam-Best` = `20423e59-0229-494a-869a-f9922a293efc`** (soul_2; supersedes old `Husam` 76fab95a whose
+  training read older/tired). Trained on 16 director-approved frames: 4 REAL photos (tram hero 85abddbe, bright
+  frontal db4c8868, laugh c029f8ba, calm-3/4 beba6942) + 12 curated anchors (incl. slim nano re-runs 2ef2954d noir,
+  251fcba8 smile; REJECTED: 121c10bf, 0926e4a5 — read too heavy).
+- **BODY LAW (always in Husam prompts): 34 years old, 172 cm, 60 kg — SLIM lean build, slender neck, narrow
+  shoulders, lean face.** The old-looking renders came from harsh selfie lighting + models bulking/aging him;
+  antidote = this body clause + "at his best — rested and vital, dense DARK beard neatly groomed, no grey" +
+  neat side-parted hair. Never describe his facial features beyond this styling layer — the Soul/refs define the face.
+- Uploaded real-photo media_ids (reusable as Nano refs): 85abddbe (tram hero) · db4c8868 (bright frontal) ·
+  c029f8ba (laugh) · beba6942 (calm 3/4).
+- **Element `@husamcon` = `2f4e960c-c030-4ed3-827d-1fdd71d8a74a`** — Husam identity for ELEMENT-based models
+  (Nano/Kling/Cinema Studio/Seedance), built from the 6 approved refs (4 real + 2 slim Nano). VERIFIED working:
+  Şile v2 (CS3.0, job 7cedf89f) rendered him young/slim from behind. Use this whenever Husam is in an element-model
+  shot; the Husam-Best Soul (20423e59) is for soul_2/Cinema only and is still queued on Higgsfield.
+- Federica counterpart element = `@fedecon-1` (1409d61a). Both together = the two-hander recipe (Şile, etc.).
+
 ## ELEMENT ID REGISTRY (use exact IDs; never guess)
+- **`@fedecon-1` = `1409d61a-ce82-4e87-a745-26259bb909a8` — FEDERICA MASTER IDENTITY ANCHOR (2026-07-21, THE
+  canonical face element for all element-based models: Nano Banana Pro/2, Kling 3.0, Cinema Studio, Seedream).**
+  5 director-approved frames: taxi hero "tıpatıp o" 4d2bd1b2 + frontal daylight d3801c85 + 3/4 tungsten 7b9c5320 +
+  true profile 52bb32f6 + low-key noir 2a39d5b7 (all from Federica-Combined Soul eab233e4). Prompt rule: reference
+  her ONLY via this element + "stay true to her exact bone structure, real face and natural attitudes" — NEVER
+  describe hair/brows/eyes/freckles in words (verbal description spawns wrong variants; the anchor defines her).
+  (NOTE: legacy single-photo `fedecon` 5c561cbe exists — name collision is why the new one is `fedecon-1`.)
 - `@Necklage-of-Fede`  = `74930eee-cbb5-4c62-9a5b-f11526b736b9`  (prop, RELIABLE — always attach when pendant is on screen)
 - `@Consigliera-palto` = `d5db280f-63fb-4166-8473-e680e251d68d`  (coat)
 - `@Federica-Clean`    = `14c961c3-0b0f-4012-9d33-0a52afbaf177`  (STRONG character identity, real photos, locked dark-brown hair — reference her face inline by this handle; the ONE correct Federica element)
